@@ -1,4 +1,4 @@
-# EBAY-API-SDK
+# EBAY-SDK
 
 ## License
 MIT
