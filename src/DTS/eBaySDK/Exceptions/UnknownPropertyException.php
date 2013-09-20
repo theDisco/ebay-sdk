@@ -1,7 +1,7 @@
 <?php
 namespace DTS\eBaySDK\Exceptions;
 
-class InvalidPropertyException extends \LogicException
+class UnknownPropertyException extends \LogicException
 {
     public function __construct($property, $class, $code = 0, \Exception $previous = null) 
     {

@@ -1,19 +1,19 @@
 <?php
 
-use DTS\eBaySDK\Exceptions\InvalidPropertyException;
+use DTS\eBaySDK\Exceptions\UnknownPropertyException;
 
-class InvalidPropertyExceptionTest extends \PHPUnit_Framework_TestCase
+class UnknownPropertyExceptionTest extends \PHPUnit_Framework_TestCase
 {
     protected $obj;
 
     protected function setUp()
     {
-        $this->obj = new InvalidPropertyException('foo', 'Bar');
+        $this->obj = new UnknownPropertyException('foo', 'Bar');
     }
 
     public function testCanBeCreated()
     {
-        $this->assertInstanceOf('\DTS\eBaySDK\Exceptions\InvalidPropertyException', $this->obj);
+        $this->assertInstanceOf('\DTS\eBaySDK\Exceptions\UnknownPropertyException', $this->obj);
     }
 
     public function testExtendsLogicException()
