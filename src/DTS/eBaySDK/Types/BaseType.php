@@ -24,6 +24,16 @@ class BaseType
         $this->set($name, $value);
     }
 
+    public function __isset($name)
+    {
+        return $this->isPropertySet($name);
+    }
+
+    public function __unset($name)
+    {
+        $this->unSetProperty($name);
+    }
+
     private function get($name)
     {
         self::ensurePropertyExists($name);
@@ -35,6 +45,18 @@ class BaseType
         self::ensurePropertyExists($name);
         self::ensurePropertyType($name, $value);
         $this->setValue($name, $value);
+    }
+
+    private function isPropertySet($name)
+    {
+        self::ensurePropertyExists($name);
+        return array_key_exists($name, $this->values);
+    }
+
+    private function unSetProperty($name)
+    {
+        self::ensurePropertyExists($name);
+        unset($this->values[$name]);
     }
 
     private function getValue($name)

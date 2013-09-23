@@ -71,4 +71,31 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->simpleClass = $simpleClass;
         $this->assertEquals($simpleClass, $this->obj->simpleClass);
     } 
+
+    public function testIsSetNonExistentProperty()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
+
+        isset($this->obj->foo);
+    }
+
+    public function testIsSet()
+    {
+        $this->obj->string = 'foo';
+        $this->assertEquals(true, isset($this->obj->string));
+    }
+
+    public function testUnSetNonExistentProperty()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
+
+        isset($this->obj->foo);
+    }
+
+    public function testUnSet()
+    {
+        $this->obj->string = 'foo';
+        unset($this->obj->string);
+        $this->assertEquals(false, isset($this->obj->string));
+    }
 }
