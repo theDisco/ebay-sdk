@@ -8,7 +8,7 @@ class UnboundTypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->obj = new UnboundType();
+        $this->obj = new UnboundType('', '', 'string');
     }
 
     public function testCanBeCreated()

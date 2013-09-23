@@ -98,4 +98,48 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         unset($this->obj->string);
         $this->assertEquals(false, isset($this->obj->string));
     }
+
+    public function testUnboundProperty()
+    {
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+        $this->assertEquals(0, count($this->obj->strings));
+
+        $this->obj->strings[] = 'foo';
+        $this->obj->strings[] = 'bar';
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+        $this->assertEquals(2, count($this->obj->strings));
+        $this->assertEquals('foo', $this->obj->strings[0]);
+        $this->assertEquals('bar', $this->obj->strings[1]);
+
+        $this->obj->strings = ['foo', 'bar'];
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+        $this->assertEquals(2, count($this->obj->strings));
+        $this->assertEquals('foo', $this->obj->strings[0]);
+        $this->assertEquals('bar', $this->obj->strings[1]);
+
+        $this->obj->strings = [];
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+        $this->assertEquals(0, count($this->obj->strings));
+    }
+
+    public function testSettingUnboundPropertyWithAnInvalidType()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integers expected <integer>, got <string>');
+
+        $this->obj->integers[] = 'foo';
+    }
+
+    public function testSettingUnboundPropertyWithOneInvalidType()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integers expected <integer>, got <string>');
+
+        $this->obj->integers = [123, 'foo'];
+    }
+
+    public function testSettingUnboundPropertyDirectly()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integers expected <DTS\eBaySDK\Types\UnboundType>, got <integer>');
+
+        $this->obj->integers = 123;
+    }
 }

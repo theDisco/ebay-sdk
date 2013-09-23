@@ -1,10 +1,26 @@
 <?php
 namespace DTS\eBaySDK\Types;
 
+use \DTS\eBaySDK\Exceptions;
+
 class UnboundType implements \ArrayAccess, \Countable, \Iterator
 {
     private $data = [];
+
     private $position = 0;
+
+    private $class;
+
+    private $property;
+
+    private $expectedType;
+
+    public function __construct($class, $property, $expectedType)
+    {
+        $this->class = $class;
+        $this->property = $property;
+        $this->expectedType = $expectedType;
+    }
 
     public function offsetExists($offset)
     {
@@ -18,6 +34,8 @@ class UnboundType implements \ArrayAccess, \Countable, \Iterator
 
     public function offsetSet($offset, $value)
     {
+        self::ensurePropertyType($value);
+
         if (is_null($offset)) {
             $this->data[] = $value;
         } else {
@@ -58,5 +76,17 @@ class UnboundType implements \ArrayAccess, \Countable, \Iterator
     public function valid()
     {
         return $this->offsetExists($this->position);
+    }
+
+    private function ensurePropertyType($value)
+    {
+        $actualType = gettype($value);
+        if ('object' === $actualType) {
+            $actualType = get_class($value);
+        }
+
+        if ($this->expectedType !== $actualType) {
+            throw new Exceptions\InvalidPropertyTypeException($this->class, $this->property, $this->expectedType, $actualType);
+        }
     }
 }
