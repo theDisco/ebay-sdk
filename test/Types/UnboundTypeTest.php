@@ -53,10 +53,17 @@ class UnboundTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->obj[10]);
 
         $index = 0;
-        foreach($this->obj as $key => $value) {
+        foreach ($this->obj as $key => $value) {
             $this->assertEquals($index, $key);
             $this->assertEquals($this->obj[$index], $value);
             $index++;
         }
+    }
+
+    public function testSettingInvalidType()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: :: expected <string>, got <integer>');
+
+        $this->obj[] = 123;
     }
 }

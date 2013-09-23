@@ -38,6 +38,7 @@ class BaseType
     private function get($name)
     {
         self::ensurePropertyExists($name);
+
         return $this->getValue($name);
     }
 
@@ -45,18 +46,21 @@ class BaseType
     {
         self::ensurePropertyExists($name);
         self::ensurePropertyType($name, $value);
+
         $this->setValue($name, $value);
     }
 
     private function isPropertySet($name)
     {
         self::ensurePropertyExists($name);
+
         return array_key_exists($name, $this->values);
     }
 
     private function unSetProperty($name)
     {
         self::ensurePropertyExists($name);
+
         unset($this->values[$name]);
     }
 
@@ -80,10 +84,10 @@ class BaseType
         } else {
             $actualType = self::getActualType($value);
             if ('array' !== $actualType) {
-                throw new Exceptions\InvalidPropertyTypeException(\get_called_class(), $name, 'DTS\eBaySDK\Types\UnboundType', $actualType);
+                throw new Exceptions\InvalidPropertyTypeException(get_called_class(), $name, 'DTS\eBaySDK\Types\UnboundType', $actualType);
             } else {
                 $this->values[$name] = new Types\UnboundType(get_class($this), $name, $info['type']);
-                foreach($value as $item) {
+                foreach ($value as $item) {
                     $this->values[$name][] = $item;
                 }
             }
@@ -92,7 +96,7 @@ class BaseType
 
     private static function ensurePropertyExists($name)
     {
-        $class = \get_called_class();
+        $class = get_called_class();
 
         if (!array_key_exists($name, self::$properties[$class])) {
             throw new Exceptions\UnknownPropertyException($class, $name);
@@ -106,22 +110,24 @@ class BaseType
         $expectedType = $info['type'];
         $actualType = self::getActualType($value);
 
-        if ($expectedType !== $actualType && $actualType !== 'array') {
-            throw new Exceptions\InvalidPropertyTypeException(\get_called_class(), $name, $expectedType, $actualType);
+        if ($expectedType !== $actualType && 'array' !== $actualType) {
+            throw new Exceptions\InvalidPropertyTypeException(get_called_class(), $name, $expectedType, $actualType);
         }
     }
 
     private static function getActualType($value) 
     {
         $actualType = gettype($value);
+
         if ('object' === $actualType) {
             $actualType = get_class($value);
         }
+
         return $actualType;
     }
 
     private static function propertyInfo($name)
     {
-        return self::$properties[\get_called_class()][$name];
+        return self::$properties[get_called_class()][$name];
     }
 }

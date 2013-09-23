@@ -37,7 +37,7 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
 
         parent::__construct();
 
-        if(!array_key_exists(__CLASS__, self::$properties)) {
+        if (!array_key_exists(__CLASS__, self::$properties)) {
             self::$properties[__CLASS__] = array_merge(self::$properties[get_parent_class()], $properties);
         }
     }
