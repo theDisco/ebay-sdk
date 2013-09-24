@@ -10,81 +10,92 @@ class BaseType
     
     private $values = [];
  
-    public function __construct()
+    public function __construct(array $values = [])
     {
-        self::$properties[__CLASS__] = [];
+        if (!array_key_exists(__CLASS__, self::$properties)) {
+            self::$properties[__CLASS__] = [];
+        }
+      
+        $this->setValues(__CLASS__, $values);
     }
 
     public function __get($name)
     {
-        return $this->get($name);
+        return $this->get(get_class($this), $name);
     }
 
     public function __set($name, $value)
     {
-        $this->set($name, $value);
+        $this->set(get_class($this), $name, $value);
     }
 
     public function __isset($name)
     {
-        return $this->isPropertySet($name);
+        return $this->isPropertySet(get_class($this), $name);
     }
 
     public function __unset($name)
     {
-        $this->unSetProperty($name);
+        $this->unSetProperty(get_class($this), $name);
     }
 
-    private function get($name)
+    protected function setValues($class, array $values = [])
     {
-        self::ensurePropertyExists($name);
-
-        return $this->getValue($name);
+        foreach ($values as $property => $value) {
+            $this->set($class, $property, $value);
+        }
     }
 
-    private function set($name, $value)
+    private function get($class, $name)
     {
-        self::ensurePropertyExists($name);
-        self::ensurePropertyType($name, $value);
+        self::ensurePropertyExists($class, $name);
 
-        $this->setValue($name, $value);
+        return $this->getValue($class, $name);
     }
 
-    private function isPropertySet($name)
+    private function set($class, $name, $value)
     {
-        self::ensurePropertyExists($name);
+        self::ensurePropertyExists($class, $name);
+        self::ensurePropertyType($class, $name, $value);
+
+        $this->setValue($class, $name, $value);
+    }
+
+    private function isPropertySet($class, $name)
+    {
+        self::ensurePropertyExists($class, $name);
 
         return array_key_exists($name, $this->values);
     }
 
-    private function unSetProperty($name)
+    private function unSetProperty($class, $name)
     {
-        self::ensurePropertyExists($name);
+        self::ensurePropertyExists($class, $name);
 
         unset($this->values[$name]);
     }
 
-    private function getValue($name)
+    private function getValue($class, $name)
     {
-        $info = self::propertyInfo($name);
+        $info = self::propertyInfo($class, $name);
 
         if ($info['unbound'] && !array_key_exists($name, $this->values)) {
-            $this->values[$name] = new Types\UnboundType(get_class($this), $name, $info['type']);
+            $this->values[$name] = new Types\UnboundType($class, $name, $info['type']);
         }
 
         return array_key_exists($name, $this->values) ? $this->values[$name] : null;
     }
 
-    private function setValue($name, $value)
+    private function setValue($class, $name, $value)
     {
-        $info = self::propertyInfo($name);
+        $info = self::propertyInfo($class, $name);
 
         if (!$info['unbound']) {
             $this->values[$name] = $value;
         } else {
             $actualType = self::getActualType($value);
             if ('array' !== $actualType) {
-                throw new Exceptions\InvalidPropertyTypeException(get_called_class(), $name, 'DTS\eBaySDK\Types\UnboundType', $actualType);
+                throw new Exceptions\InvalidPropertyTypeException(get_class($this), $name, 'DTS\eBaySDK\Types\UnboundType', $actualType);
             } else {
                 $this->values[$name] = new Types\UnboundType(get_class($this), $name, $info['type']);
                 foreach ($value as $item) {
@@ -94,18 +105,16 @@ class BaseType
         }
     }
 
-    private static function ensurePropertyExists($name)
+    private static function ensurePropertyExists($class, $name)
     {
-        $class = get_called_class();
-
         if (!array_key_exists($name, self::$properties[$class])) {
-            throw new Exceptions\UnknownPropertyException($class, $name);
+            throw new Exceptions\UnknownPropertyException(get_called_class(), $name);
         }
     }
 
-    private static function ensurePropertyType($name, $value)
+    private static function ensurePropertyType($class, $name, $value)
     {
-        $info = self::propertyInfo($name);
+        $info = self::propertyInfo($class, $name);
 
         $expectedType = $info['type'];
         $actualType = self::getActualType($value);
@@ -126,8 +135,17 @@ class BaseType
         return $actualType;
     }
 
-    private static function propertyInfo($name)
+    private static function propertyInfo($class, $name)
     {
-        return self::$properties[get_called_class()][$name];
+        return self::$properties[$class][$name];
+    }
+
+
+    protected static function getParentValues(array $properties = [], array $values = [])
+    {
+      return [
+          array_diff_key($values, $properties),
+          array_intersect_key($values, $properties)
+      ];
     }
 }
