@@ -20,4 +20,11 @@ class DecimalTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\DTS\eBaySDK\Types\BaseType', $this->obj);
     }
+
+    public function testHasValueProperty()
+    {
+        $this->obj->value = 123;
+        $this->assertEquals(123, $this->obj->value);
+        $this->assertInternalType('integer', $this->obj->value);
+    }
 }

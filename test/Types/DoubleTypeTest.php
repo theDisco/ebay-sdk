@@ -20,4 +20,11 @@ class DoubleTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\DTS\eBaySDK\Types\BaseType', $this->obj);
     }
+
+    public function testHasValueProperty()
+    {
+        $this->obj->value = 123.45;
+        $this->assertEquals(123.45, $this->obj->value);
+        $this->assertInternalType('float', $this->obj->value);
+    }
 }

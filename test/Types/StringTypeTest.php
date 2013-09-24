@@ -20,4 +20,11 @@ class StringTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\DTS\eBaySDK\Types\BaseType', $this->obj);
     }
+
+    public function testHasValueProperty()
+    {
+        $this->obj->value = 'foo';
+        $this->assertEquals('foo', $this->obj->value);
+        $this->assertInternalType('string', $this->obj->value);
+    }
 }

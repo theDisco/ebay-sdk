@@ -20,4 +20,11 @@ class BooleanTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\DTS\eBaySDK\Types\BaseType', $this->obj);
     }
+
+    public function testHasValueProperty()
+    {
+        $this->obj->value = true;
+        $this->assertEquals(true, $this->obj->value);
+        $this->assertInternalType('boolean', $this->obj->value);
+    }
 }
