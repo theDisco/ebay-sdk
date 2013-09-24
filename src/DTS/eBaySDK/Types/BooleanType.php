@@ -1,6 +1,9 @@
 <?php
 namespace DTS\eBaySDK\Types;
 
+/**
+ * @property boolean value
+ */
 class BooleanType extends \DTS\eBaySDK\Types\BaseType
 {
     public function __construct(array $values = [])

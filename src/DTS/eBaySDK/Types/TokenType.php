@@ -1,6 +1,9 @@
 <?php
 namespace DTS\eBaySDK\Types;
 
+/**
+ * @property string value
+ */
 class TokenType extends \DTS\eBaySDK\Types\BaseType
 {
     public function __construct(array $values = [])

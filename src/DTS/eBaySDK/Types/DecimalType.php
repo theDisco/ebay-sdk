@@ -1,6 +1,9 @@
 <?php
 namespace DTS\eBaySDK\Types;
 
+/**
+ * @property integer value
+ */
 class DecimalType extends \DTS\eBaySDK\Types\BaseType
 {
     public function __construct(array $values = [])

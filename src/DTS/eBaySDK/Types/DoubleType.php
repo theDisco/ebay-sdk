@@ -1,6 +1,9 @@
 <?php
 namespace DTS\eBaySDK\Types;
 
+/**
+ * @property double value
+ */
 class DoubleType extends \DTS\eBaySDK\Types\BaseType
 {
     public function __construct(array $values = [])
