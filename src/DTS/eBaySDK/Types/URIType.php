@@ -8,7 +8,8 @@ class URIType extends \DTS\eBaySDK\Types\BaseType
         $properties = [
             'value' => [
                 'type' => 'string',
-                'unbound' => false
+                'unbound' => false,
+                'attribute' => false
             ]
         ];
 

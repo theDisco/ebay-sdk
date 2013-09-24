@@ -7,7 +7,8 @@ class ComplexClass extends SimpleClass
         $properties = [
             'foo' => [
                 'type' => 'string',
-                'unbound' => false
+                'unbound' => false,
+                'attribute' => false
             ]
         ];
 

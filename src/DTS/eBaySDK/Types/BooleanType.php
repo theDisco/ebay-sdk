@@ -8,7 +8,8 @@ class BooleanType extends \DTS\eBaySDK\Types\BaseType
         $properties = [
             'value' => [
                 'type' => 'boolean',
-                'unbound' => false
+                'unbound' => false,
+                'attribute' => false
             ]
         ];
 

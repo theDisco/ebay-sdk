@@ -8,7 +8,8 @@ class DoubleType extends \DTS\eBaySDK\Types\BaseType
         $properties = [
             'value' => [
                 'type' => 'double',
-                'unbound' => false
+                'unbound' => false,
+                'attribute' => false
             ]
         ];
 

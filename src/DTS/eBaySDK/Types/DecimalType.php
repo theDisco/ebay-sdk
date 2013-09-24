@@ -8,7 +8,8 @@ class DecimalType extends \DTS\eBaySDK\Types\BaseType
         $properties = [
             'value' => [
                 'type' => 'integer',
-                'unbound' => false
+                'unbound' => false,
+                'attribute' => false
             ]
         ];
 
