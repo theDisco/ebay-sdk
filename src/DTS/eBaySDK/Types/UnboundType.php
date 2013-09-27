@@ -50,12 +50,12 @@ class UnboundType implements \ArrayAccess, \Countable, \Iterator
 
     public function count()
     {
-        return count($this->data); 
+        return count($this->data);
     }
 
     public function current()
     {
-        return $this->offsetGet($this->position);      
+        return $this->offsetGet($this->position);
     }
 
     public function key()

@@ -7,15 +7,15 @@ use \DTS\eBaySDK\Exceptions;
 class BaseType
 {
     protected static $properties = [];
-    
+
     private $values = [];
- 
+
     public function __construct(array $values = [])
     {
         if (!array_key_exists(__CLASS__, self::$properties)) {
             self::$properties[__CLASS__] = [];
         }
-      
+
         $this->setValues(__CLASS__, $values);
     }
 
@@ -124,7 +124,7 @@ class BaseType
         }
     }
 
-    private static function getActualType($value) 
+    private static function getActualType($value)
     {
         $actualType = gettype($value);
 
@@ -139,7 +139,6 @@ class BaseType
     {
         return self::$properties[$class][$name];
     }
-
 
     protected static function getParentValues(array $properties = [], array $values = [])
     {
