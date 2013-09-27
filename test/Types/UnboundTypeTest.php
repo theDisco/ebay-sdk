@@ -34,7 +34,7 @@ class UnboundTypeTest extends \PHPUnit_Framework_TestCase
     public function testArray()
     {
         $this->assertEquals(0, count($this->obj));
-    
+
         $this->obj[] = 'one';
         $this->assertEquals(1, count($this->obj));
         $this->assertEquals('one', $this->obj[0]);

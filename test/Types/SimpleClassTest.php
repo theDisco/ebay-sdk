@@ -62,7 +62,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->strings = [];
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
-    } 
+    }
 
     public function testIsSet()
     {
