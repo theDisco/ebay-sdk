@@ -2,7 +2,7 @@
 namespace DTS\eBaySDK\Types;
 
 /**
- * @property integer value
+ * @property integer $value
  */
 class IntegerType extends \DTS\eBaySDK\Types\BaseType
 {

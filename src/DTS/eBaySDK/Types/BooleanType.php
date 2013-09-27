@@ -2,7 +2,7 @@
 namespace DTS\eBaySDK\Types;
 
 /**
- * @property boolean value
+ * @property boolean $value
  */
 class BooleanType extends \DTS\eBaySDK\Types\BaseType
 {

@@ -2,7 +2,7 @@
 namespace DTS\eBaySDK\Types;
 
 /**
- * @property double value
+ * @property double $value
  */
 class DoubleType extends \DTS\eBaySDK\Types\BaseType
 {

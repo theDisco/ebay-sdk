@@ -2,7 +2,7 @@
 namespace DTS\eBaySDK\Types;
 
 /**
- * @property string value
+ * @property string $value
  */
 class StringType extends \DTS\eBaySDK\Types\BaseType
 {
