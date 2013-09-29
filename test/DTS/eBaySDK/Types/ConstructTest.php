@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
+require_once __DIR__ . '/../../../fixtures/ComplexClass.php';
 
 class ConstructTest extends \PHPUnit_Framework_TestCase
 {
