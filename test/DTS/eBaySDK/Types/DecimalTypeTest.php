@@ -4,7 +4,7 @@ use DTS\eBaySDK\Types\DecimalType;
 
 class DecimalTypeTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {

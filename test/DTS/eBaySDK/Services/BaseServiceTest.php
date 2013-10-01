@@ -5,7 +5,7 @@ use DTS\eBaySDK\Services\BaseService;
 
 class BaseServiceTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {

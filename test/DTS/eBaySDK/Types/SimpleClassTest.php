@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
 
 class SimpleClassTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {

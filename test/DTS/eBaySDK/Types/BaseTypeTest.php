@@ -4,7 +4,7 @@ use DTS\eBaySDK\Types\BaseType;
 
 class BaseTypeTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {

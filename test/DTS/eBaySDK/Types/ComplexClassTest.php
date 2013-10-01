@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../../fixtures/ComplexClass.php';
 
 class ComplexClassTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {

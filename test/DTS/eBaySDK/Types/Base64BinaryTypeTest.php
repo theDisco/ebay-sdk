@@ -4,7 +4,7 @@ use DTS\eBaySDK\Types\Base64BinaryType;
 
 class Base64BinaryTypeTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {

@@ -4,7 +4,7 @@ use DTS\eBaySDK\Exceptions\UnknownPropertyException;
 
 class UnknownPropertyExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    protected $obj;
+    private $obj;
 
     protected function setUp()
     {
