@@ -1,0 +1,25 @@
+<root>
+    <integer>123</integer>
+    <string>a string</string>
+    <double>123.45</double>
+    <DateTime>2000-01-01T0:00:00.000Z</DateTime>
+    <SimpleClass>
+        <integer>321</integer>
+        <string>another string</string>
+    </SimpleClass>
+    <strings>foo</strings>
+    <strings>bar</strings>
+    <integers>1</integers>
+    <integers>2</integers>
+    <integers>3</integers>
+    <integers>4</integers>
+    <integers>5</integers>
+    <foo>foo</foo>
+    <AmountClass AttributeOne="one">543.21</AmountClass>
+    <simpleClasses>
+        <integer>888</integer>
+    </simpleClasses>
+    <simpleClasses>
+        <integer>999</integer>
+    </simpleClasses>
+</root>

@@ -8,37 +8,44 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
             'integer' => [
                 'type' => 'integer',
                 'unbound' => false,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'integer'
             ],
             'string' => [
                 'type' => 'string',
                 'unbound' => false,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'string'
             ],
             'double' => [
                 'type' => 'double',
                 'unbound' => false,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'double'
             ],
             'dateTime' => [
                 'type' => 'DateTime',
                 'unbound' => false,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'DateTime'
             ],
             'simpleClass' => [
                 'type' => 'SimpleClass',
                 'unbound' => false,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'SimpleClass'
             ],
             'strings' => [
                 'type' => 'string',
                 'unbound' => true,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'strings'
             ],
             'integers' => [
                 'type' => 'integer',
                 'unbound' => true,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'integers'
             ]
         ];
 

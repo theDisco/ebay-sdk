@@ -8,7 +8,20 @@ class ComplexClass extends SimpleClass
             'foo' => [
                 'type' => 'string',
                 'unbound' => false,
-                'attribute' => false
+                'attribute' => false,
+                'elementName' => 'foo'
+            ],
+            'amountClass' => [
+                'type' => 'AmountClass',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'AmountClass'
+            ],
+            'simpleClasses' => [
+                'type' => 'SimpleClass',
+                'unbound' => true,
+                'attribute' => false,
+                'elementName' => 'simpleClasses'
             ]
         ];
 

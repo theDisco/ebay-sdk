@@ -39,6 +39,11 @@ class BaseType
         $this->unSetProperty(get_class($this), $name);
     }
 
+    public function toXml($elementName)
+    {
+        return sprintf('<%s%s>%s</%s>', $elementName, $this->attributesToXml(), $this->propertiesToXml(), $elementName);
+    }
+
     protected function setValues($class, array $values = [])
     {
         foreach ($values as $property => $value) {
@@ -105,6 +110,55 @@ class BaseType
         }
     }
 
+    private function attributesToXml() {
+        $attributes = [];
+
+        foreach (self::$properties[get_class($this)] as $name => $info) {
+            if(!$info['attribute']) {
+                continue;
+            }
+
+            if (!array_key_exists($name, $this->values)) {
+                continue;
+            }
+
+            $attributes[] = self::attributeToXml($info['attributeName'], $this->values[$name]); 
+        }
+
+        return join('', $attributes);
+    }
+
+    private function propertiesToXml() {
+        $properties = [];
+
+        foreach (self::$properties[get_class($this)] as $name => $info) {
+            if($info['attribute']) {
+                continue;
+            }
+
+            if (!array_key_exists($name, $this->values)) {
+                continue;
+            }
+
+            $value = $this->values[$name];
+
+            if(!array_key_exists('elementName', $info) && !array_key_exists('attributeName', $info)) {
+                $properties[] = self::encodeValueXml($value);
+            }
+            else {
+                if ($info['unbound']) {
+                    foreach($value as $property) {
+                        $properties[] = self::propertyToXml($info['elementName'], $property); 
+                    }
+                } else {
+                    $properties[] = self::propertyToXml($info['elementName'], $value); 
+                }
+            }
+        }
+
+        return join('', $properties);
+    }
+
     private static function ensurePropertyExists($class, $name)
     {
         if (!array_key_exists($name, self::$properties[$class])) {
@@ -146,5 +200,28 @@ class BaseType
           array_diff_key($values, $properties),
           array_intersect_key($values, $properties)
       ];
+    }
+
+    private static function attributeToXml($name, $value)
+    {
+        return sprintf(' %s="%s"', $name, self::encodeValueXml($value));
+    }
+
+    private static function propertyToXml($name, $value)
+    {
+        if (is_subclass_of($value, '\DTS\eBaySDK\Types\BaseType')) {
+            return $value->toXml($name);
+        } else {
+            return sprintf('<%s>%s</%s>', $name, self::encodeValueXml($value), $name);
+        }
+    }
+
+    private static function encodeValueXml($value)
+    {
+        if ($value instanceof \DateTime) {
+            return $value->format('Y-m-d\TG:i:s.000\Z');
+        } else {
+            return $value;
+        }
     }
 }

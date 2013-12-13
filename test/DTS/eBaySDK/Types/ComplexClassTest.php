@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
+require_once __DIR__ . '/../../../fixtures/AmountClass.php';
 require_once __DIR__ . '/../../../fixtures/ComplexClass.php';
 
 class ComplexClassTest extends \PHPUnit_Framework_TestCase
@@ -71,5 +72,34 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->strings = [];
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+    }
+
+    public function testToXml()
+    {
+        $this->obj->foo = 'foo';
+        $this->obj->integer = 123;
+        $this->obj->string = 'a string';
+        $this->obj->double = 123.45;
+        $this->obj->dateTime = new \DateTime('2000-01-01');
+
+        $simpleClass = new SimpleClass();
+        $simpleClass->integer = 321;
+        $simpleClass->string = 'another string';
+        $this->obj->simpleClass = $simpleClass;
+
+        $amountClass = new AmountClass();
+        $amountClass->value = 543.21;
+        $amountClass->attributeOne = 'one';
+        $this->obj->amountClass = $amountClass;
+
+        $this->obj->strings = ['foo', 'bar'];
+        $this->obj->integers = [1,2,3,4,5];
+
+        $this->obj->simpleClasses = [
+          new SimpleClass(['integer' => 888]),
+          new SimpleClass(['integer' => 999])
+        ];
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../../fixtures/ComplexClassXml.xml', $this->obj->toXml('root'));
     }
 }
