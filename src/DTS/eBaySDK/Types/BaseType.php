@@ -209,7 +209,7 @@ class BaseType
 
     private static function propertyToXml($name, $value)
     {
-        if (is_subclass_of($value, '\DTS\eBaySDK\Types\BaseType')) {
+        if (is_subclass_of($value, '\DTS\eBaySDK\Types\BaseType', false)) {
             return $value->toXml($name);
         } else {
             return sprintf('<%s>%s</%s>', $name, self::encodeValueXml($value), $name);
