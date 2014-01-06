@@ -220,6 +220,9 @@ class BaseType
     {
         if ($value instanceof \DateTime) {
             return $value->format('Y-m-d\TG:i:s.000\Z');
+        }
+        else if (is_bool($value)){
+            return $value ? 'true' : 'false';
         } else {
             return $value;
         }

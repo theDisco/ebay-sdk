@@ -34,6 +34,14 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(123.45, $this->obj->double);
         $this->assertInternalType('float', $this->obj->double);
 
+        $this->obj->booleanTrue = true;
+        $this->assertEquals(true, $this->obj->booleanTrue);
+        $this->assertInternalType('boolean', $this->obj->booleanTrue);
+
+        $this->obj->booleanFalse = false;
+        $this->assertEquals(false, $this->obj->booleanFalse);
+        $this->assertInternalType('boolean', $this->obj->booleanFalse);
+
         $date = new \DateTime('2000-01-01');
         $this->obj->dateTime = $date;
         $this->assertEquals($date, $this->obj->dateTime);
@@ -90,6 +98,13 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
 
         $this->obj->foo = 'foo';
+    }
+
+    public function testSettingPropertyWithAnInvalidType()
+    {
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integer expected <integer>, got <string>');
+
+        $this->obj->integer = 'foo';
     }
 
     public function testIsSetNonExistentProperty()
