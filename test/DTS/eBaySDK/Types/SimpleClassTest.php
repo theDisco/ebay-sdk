@@ -42,7 +42,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->obj->booleanFalse);
         $this->assertInternalType('boolean', $this->obj->booleanFalse);
 
-        $date = new \DateTime('2000-01-01');
+        $date = new \DateTime('2000-01-01', new DateTimeZone("UTC"));
         $this->obj->dateTime = $date;
         $this->assertEquals($date, $this->obj->dateTime);
         $this->assertInstanceOf('\DateTime', $this->obj->dateTime);

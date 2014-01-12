@@ -51,7 +51,7 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->obj->booleanFalse);
         $this->assertInternalType('boolean', $this->obj->booleanFalse);
 
-        $date = new \DateTime('2000-01-01');
+        $date = new \DateTime('2000-01-01', new DateTimeZone("UTC"));
         $this->obj->dateTime = $date;
         $this->assertEquals($date, $this->obj->dateTime);
         $this->assertInstanceOf('\DateTime', $this->obj->dateTime);
@@ -88,7 +88,7 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->integer = 123;
         $this->obj->string = 'a string';
         $this->obj->double = 123.45;
-        $this->obj->dateTime = new \DateTime('2000-01-01');
+        $this->obj->dateTime = new \DateTime('2000-01-01', new DateTimeZone("UTC"));
         $this->obj->booleanTrue = true;
         $this->obj->booleanFalse = false;
 
