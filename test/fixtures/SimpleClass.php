@@ -69,6 +69,10 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
             self::$properties[__CLASS__] = array_merge(self::$properties[get_parent_class()], $properties);
         }
 
+        if (!array_key_exists(__CLASS__, self::$xmlNamespaces)) {
+            self::$xmlNamespaces[__CLASS__] = 'http://davidtsadler.com';
+        }
+
         $this->setValues(__CLASS__, $childValues);
     }
 }

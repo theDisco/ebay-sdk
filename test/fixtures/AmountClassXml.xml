@@ -1,1 +1,1 @@
-<Price AttributeOne="one" AttributeTwo="two">123.45</Price>
+<Price AttributeOne="one" AttributeTwo="two" xmlns="http://davidtsadler.com">123.45</Price>

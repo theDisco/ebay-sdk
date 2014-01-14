@@ -7,6 +7,7 @@ use \DTS\eBaySDK\Exceptions;
 class BaseType
 {
     protected static $properties = [];
+    protected static $xmlNamespaces = [];
 
     private $values = [];
 
@@ -41,7 +42,13 @@ class BaseType
 
     public function toXml($elementName)
     {
-        return sprintf('<%s%s>%s</%s>', $elementName, $this->attributesToXml(), $this->propertiesToXml(), $elementName);
+        return sprintf('<%s%s%s>%s</%s>', 
+            $elementName, 
+            $this->attributesToXml(),
+            array_key_exists(get_class($this), self::$xmlNamespaces) ? sprintf(' xmlns="%s"', self::$xmlNamespaces[get_class($this)]) : '', 
+            $this->propertiesToXml(), 
+            $elementName
+        );
     }
 
     protected function setValues($class, array $values = [])
