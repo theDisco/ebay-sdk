@@ -40,9 +40,10 @@ class BaseType
         $this->unSetProperty(get_class($this), $name);
     }
 
-    public function toXml($elementName)
+    public function toXml($elementName, $rootElement = false)
     {
-        return sprintf('<%s%s%s>%s</%s>', 
+        return sprintf('%s<%s%s%s>%s</%s>', 
+            $rootElement ? '<?xml version="1.0" encoding="UTF-8"?>' : '',
             $elementName, 
             $this->attributesToXml(),
             array_key_exists(get_class($this), self::$xmlNamespaces) ? sprintf(' xmlns="%s"', self::$xmlNamespaces[get_class($this)]) : '', 

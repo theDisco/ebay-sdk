@@ -26,6 +26,6 @@ class AmountClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->attributeOne = 'one';
         $this->obj->attributeTwo = 'two';
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../../fixtures/AmountClassXml.xml', $this->obj->toXml('Price'));
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../../fixtures/AmountClassXml.xml', $this->obj->toXml('Price', true));
     }
 }
