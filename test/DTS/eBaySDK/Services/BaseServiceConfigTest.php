@@ -31,13 +31,37 @@ class BaseServiceConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $value);
 
         // Can pass an associative array to set multiple configuration options.
-        $options = [
+        $options = array(
             'bish' => 'bish',
             'bash' => 'bash',
             'bosh' => 'bosh'
-        ];
+        );
         $config = $this->obj->config($options);
         $this->assertEquals($options, $config);
         $this->assertEquals($options, $this->obj->config());
+    }
+
+    public function testGettingInvalidConfig()
+    {
+        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+
+        $this->obj->config('invalid');
+    }
+
+    public function testSettingInvalidConfig()
+    {
+        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+
+        $this->obj->config('invalid', 'xxx');
+    }
+
+    public function testSettingInvalidConfigViaArray()
+    {
+        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+
+        $config = $this->obj->config(array(
+            'bish' => 'bish',
+            'invalid' => 'xxx'
+        ));
     }
 }
