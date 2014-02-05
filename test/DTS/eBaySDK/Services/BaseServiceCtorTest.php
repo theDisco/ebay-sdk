@@ -7,11 +7,11 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
 {
     private $obj;
 
-    private $config = [
+    private $config = array(
         'bish' => 'bish',
         'bash' => 'bash',
         'bosh' => 'bosh'
-    ];
+    );
 
     protected function setUp()
     {
@@ -23,5 +23,15 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
     public function testConfigurationOptionsHaveBeenSetInCtor()
     {
         $this->assertEquals($this->config, $this->obj->config());
+    }
+
+    public function testInvalidConfigurationOptionsHaveBeenSetInCtor()
+    {
+        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+
+        new TestService(array(
+            'bish' => 'bish',
+            'invalid' => 'xxx'
+        ));
     }
 }
