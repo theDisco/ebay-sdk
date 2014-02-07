@@ -5,11 +5,15 @@ abstract class BaseService
 {
     protected static $configProperties = array();
 
+    private $httpClient = null;
+
     private $config = array();
 
-    public function __construct($config = array())
+    public function __construct(\DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, $config = array())
     {
-        self::ensureValidConfigProperties($config);
+        self::ensureValidConfigProperties($config);    
+
+        $this->httpClient = $httpClient;
         $this->config = $config;
     }
 
@@ -53,7 +57,7 @@ abstract class BaseService
 
     private static function ensureValidConfigProperty($class, $property)
     {
-        if (!array_key_exists($property, self::$configProperties[get_called_class()])) {
+        if (!array_key_exists($property, self::$configProperties[$class])) {
             throw new \InvalidArgumentException("Unknown configuration property: $property");
         }
     }

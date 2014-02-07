@@ -3,8 +3,8 @@ require_once __DIR__ . '/TestBaseService.php';
 
 class TestService extends TestBaseService
 {
-    public function __construct($config = array())
+    public function __construct(\DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, $config = array())
     {
-        parent::__construct($config);
+        parent::__construct($httpClient, $config);
     }
 }
