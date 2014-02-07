@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../fixtures/TestService.php';
+require_once __DIR__ . '/../../../fixtures/TestHttpClient.php';
 
 use DTS\eBaySDK\Services\BaseService;
 
@@ -17,7 +18,7 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
     {
         // BaseService is abstract so use class that is derived from it for testing.
         // Can pass in an associative array of configuration options.
-        $this->obj = new TestService($this->config);
+        $this->obj = new TestService(new TestHttpClient(), $this->config);
     }
 
     public function testConfigurationOptionsHaveBeenSetInCtor()
@@ -29,7 +30,7 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
 
-        new TestService(array(
+        new TestService(new TestHttpClient(), array(
             'bish' => 'bish',
             'invalid' => 'xxx'
         ));

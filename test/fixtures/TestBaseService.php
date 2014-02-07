@@ -2,7 +2,7 @@
 
 class TestBaseService extends \DTS\eBaySDK\Services\BaseService
 {
-    public function __construct($config = array())
+    public function __construct(\DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, $config = array())
     {
         if (!array_key_exists(get_called_class(), self::$configProperties)) {
             self::$configProperties[get_called_class()] = array(
@@ -13,6 +13,6 @@ class TestBaseService extends \DTS\eBaySDK\Services\BaseService
             );
         }
 
-        parent::__construct($config);
+        parent::__construct($httpClient, $config);
     }
 }
