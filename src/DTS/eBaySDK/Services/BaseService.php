@@ -41,6 +41,10 @@ abstract class BaseService
         return $this->config;
     }
 
+    protected function callOperation($name, $body)
+    {
+    }
+
     private static function ensureValidConfigProperties($property)
     {
         $class = get_called_class();

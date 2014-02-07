@@ -7,4 +7,9 @@ class TestService extends TestBaseService
     {
         parent::__construct($httpClient, $config);
     }
+
+    public function operationOne(ComplexClass $request)
+    {
+        return $this->callOperation('testOperationOne', $request->toXml('TestOperationOneRequest', true));    
+    }
 }
