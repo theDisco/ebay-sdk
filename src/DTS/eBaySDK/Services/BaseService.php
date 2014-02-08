@@ -5,15 +5,30 @@ abstract class BaseService
 {
     protected static $configProperties = array();
 
-    private $httpClient = null;
+    private $httpClient;
 
-    private $config = array();
+    private $config;
 
-    public function __construct(\DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, $config = array())
-    {
+    private $productionUrl;
+
+    private $sandboxUrl;
+
+    public function __construct(
+        \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, 
+        $productionUrl,
+        $sandboxUrl,
+        $config = array()
+    ) {
         self::ensureValidConfigProperties($config);    
 
+        // Inject a 'sandbox' property for every derived class.
+        if (!array_key_exists('sandbox', self::$configProperties[get_called_class()])) {
+            self::$configProperties[get_called_class()]['sandbox'] = array('required' => false);
+        }
+
         $this->httpClient = $httpClient;
+        $this->productionUrl = $productionUrl;
+        $this->sandboxUrl = $sandboxUrl;
         $this->config = $config;
     }
 
@@ -34,7 +49,7 @@ abstract class BaseService
                 if ($value !== null) {
                     $this->config[$property] = $value;
                 }
-                return $this->config[$property];
+                return array_key_exists($property, $this->config) ? $this->config[$property] : null;
             } 
             $this->config = $property;
         }
@@ -43,6 +58,12 @@ abstract class BaseService
 
     protected function callOperation($name, $body)
     {
+        $this->httpClient->post($this->getUrl(), array(), $body);
+    }
+
+    private function getUrl()
+    {
+        return $this->config('sandbox') ? $this->sandboxUrl : $this->productionUrl;
     }
 
     private static function ensureValidConfigProperties($property)

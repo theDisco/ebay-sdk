@@ -13,6 +13,6 @@ class TestBaseService extends \DTS\eBaySDK\Services\BaseService
             );
         }
 
-        parent::__construct($httpClient, $config);
+        parent::__construct($httpClient, 'http://production.com', 'http://sandbox.com', $config);
     }
 }
