@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../../../fixtures/TestService.php';
-require_once __DIR__ . '/../../../fixtures/TestHttpClient.php';
 
 use DTS\eBaySDK\Services\BaseService;
+use DTS\eBaySDK\HttpClient\TestHttpClient;
 
 class BaseServiceTest extends \PHPUnit_Framework_TestCase
 {
