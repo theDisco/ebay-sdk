@@ -15,4 +15,9 @@ class TestBaseService extends \DTS\eBaySDK\Services\BaseService
 
         parent::__construct($httpClient, 'http://production.com', 'http://sandbox.com', $config);
     }
+
+    protected function getEbayHeaders($operationName)
+    {
+        return array('fooHdr' => $operationName);
+    }
 }

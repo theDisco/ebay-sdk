@@ -43,4 +43,14 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
         $this->service->operationOne($this->requestOne);
         $this->assertEquals('http://sandbox.com', $this->httpClient->url);
     }
+
+    public function testHttpHeadersAreCreated()
+    {
+        $this->service->operationOne($this->requestOne);
+        $this->assertEquals(array(
+            'fooHdr' => 'testOperationOne',
+            'Content-Type' => 'text/xml',
+            'Content-Length' => strlen($this->requestOne->toXml('TestOperationOneRequest', true))
+        ), $this->httpClient->headers);
+    }
 }
