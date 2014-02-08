@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/../../../fixtures/TestService.php';
-require_once __DIR__ . '/../../../fixtures/TestHttpClient.php';
 require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
 require_once __DIR__ . '/../../../fixtures/ComplexClass.php';
+
+use DTS\eBaySDK\HttpClient\TestHttpClient;
 
 class ApiRequestTest extends \PHPUnit_Framework_TestCase
 {
