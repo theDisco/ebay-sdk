@@ -58,8 +58,21 @@ abstract class BaseService
 
     protected function callOperation($name, $body)
     {
-        $this->httpClient->post($this->getUrl(), array(), $body);
+        $headers = $this->getEbayHeaders($name);
+        $headers['Content-Type'] = 'text/xml';
+        $headers['Content-Length'] = strlen($body);
+
+        $this->httpClient->post($this->getUrl(), $headers, $body);
     }
+
+    /*
+     * Derived classes must implement this method that will build the needed eBay http headers.
+     *
+     * @param string $operationName The name of the operation been called.
+     *
+     * @return array An associative array of eBay http headers. 
+     */
+    abstract protected function getEbayHeaders($operationName);
 
     private function getUrl()
     {
