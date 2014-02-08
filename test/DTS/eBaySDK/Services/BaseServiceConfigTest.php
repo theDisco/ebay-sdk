@@ -22,6 +22,9 @@ class BaseServiceConfigTest extends \PHPUnit_Framework_TestCase
         // Should be an empty array as no configuration was passed into the object ctor during construction.
         $this->assertEquals(0, count($config));
 
+        // Should return null if a configuration option has not been set.
+        $this->assertEquals(null, $this->obj->config('foo'));
+
         // Passing the name of a configuration option and a value will set that option.
         $this->obj->config('foo', 1);
         // We can get the value of a configuration option just by passing its name.
@@ -64,5 +67,14 @@ class BaseServiceConfigTest extends \PHPUnit_Framework_TestCase
             'bish' => 'bish',
             'invalid' => 'xxx'
         ));
+    }
+
+    public function testSandboxConfigExists()
+    {
+        // Should default to false.
+        $this->assertEquals(false, $this->obj->config('sandbox'));
+
+        $this->obj->config('sandbox', true);
+        $this->assertEquals(true, $this->obj->config('sandbox'));
     }
 }

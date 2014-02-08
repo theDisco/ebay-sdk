@@ -11,7 +11,8 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
     private $config = array(
         'bish' => 'bish',
         'bash' => 'bash',
-        'bosh' => 'bosh'
+        'bosh' => 'bosh',
+        'sandbox' => true
     );
 
     protected function setUp()
