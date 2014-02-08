@@ -53,4 +53,10 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
             'Content-Length' => strlen($this->requestOne->toXml('TestOperationOneRequest', true))
         ), $this->httpClient->headers);
     }
+
+    public function testXmlIsCreated()
+    {
+        $this->service->operationOne($this->requestOne);
+        $this->assertEquals($this->requestOne->toXml('TestOperationOneRequest', true), $this->httpClient->body);
+    }
 }
