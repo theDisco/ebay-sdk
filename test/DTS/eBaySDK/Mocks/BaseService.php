@@ -1,6 +1,7 @@
 <?php
+namespace DTS\eBaySDK\Mocks;
 
-class TestBaseService extends \DTS\eBaySDK\Services\BaseService
+class BaseService extends \DTS\eBaySDK\Services\BaseService
 {
     public function __construct(\DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, $config = array())
     {

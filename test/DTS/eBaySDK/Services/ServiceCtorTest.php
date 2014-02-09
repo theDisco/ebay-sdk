@@ -1,10 +1,8 @@
 <?php
-require_once __DIR__ . '/../../../fixtures/TestService.php';
+use DTS\eBaySDK\Mocks\Service;
+use DTS\eBaySDK\Mocks\HttpClient;
 
-use DTS\eBaySDK\Services\BaseService;
-use DTS\eBaySDK\HttpClient\TestHttpClient;
-
-class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
+class ServiceCtorTest extends \PHPUnit_Framework_TestCase
 {
     private $obj;
 
@@ -19,7 +17,7 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
     {
         // BaseService is abstract so use class that is derived from it for testing.
         // Can pass in an associative array of configuration options.
-        $this->obj = new TestService(new TestHttpClient(), $this->config);
+        $this->obj = new Service(new HttpClient(), $this->config);
     }
 
     public function testConfigurationOptionsHaveBeenSetInCtor()
@@ -31,7 +29,7 @@ class BaseServiceCtorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
 
-        new TestService(new TestHttpClient(), array(
+        new Service(new HttpClient(), array(
             'bish' => 'bish',
             'invalid' => 'xxx'
         ));

@@ -1,6 +1,7 @@
 <?php
+namespace DTS\eBaySDK\Mocks;
 
-class ComplexClass extends SimpleClass
+class ComplexClass extends \DTS\eBaySDK\Mocks\SimpleClass
 {
     public function __construct(array $values = [])
     {
@@ -12,13 +13,13 @@ class ComplexClass extends SimpleClass
                 'elementName' => 'foo'
             ],
             'amountClass' => [
-                'type' => 'AmountClass',
+                'type' => 'DTS\eBaySDK\Mocks\AmountClass',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'AmountClass'
             ],
             'simpleClasses' => [
-                'type' => 'SimpleClass',
+                'type' => 'DTS\eBaySDK\Mocks\SimpleClass',
                 'unbound' => true,
                 'attribute' => false,
                 'elementName' => 'simpleClasses'
