@@ -4,8 +4,6 @@ use DTS\eBaySDK\Mocks\HttpClient;
 
 class ServiceCtorTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     private $config = array(
         'bish' => 'bish',
         'bash' => 'bash',

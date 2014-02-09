@@ -5,8 +5,6 @@ use DTS\eBaySDK\Mocks\HttpClient;
 
 class ApiRequestTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     protected function setUp()
     {
         /**
