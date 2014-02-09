@@ -4,8 +4,6 @@ use DTS\eBaySDK\Mocks\HttpClient;
 
 class ServiceTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     protected function setUp()
     {
         // BaseService is abstract so use class that is derived from it for testing.

@@ -3,8 +3,6 @@ use DTS\eBaySDK\Mocks\SimpleClass;
 
 class SimpleClassTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     protected function setUp()
     {
         $this->obj = new SimpleClass();

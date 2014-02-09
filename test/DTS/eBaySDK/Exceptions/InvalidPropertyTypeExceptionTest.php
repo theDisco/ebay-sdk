@@ -4,8 +4,6 @@ use DTS\eBaySDK\Exceptions\InvalidPropertyTypeException;
 
 class InvalidPropertyTypeExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     protected function setUp()
     {
         $this->obj = new InvalidPropertyTypeException('Bar', 'foo', 'string', 'integer');
