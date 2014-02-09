@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
-require_once __DIR__ . '/../../../fixtures/ComplexClass.php';
+use DTS\eBaySDK\Mocks\ComplexClass;
 
 class ConstructTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +25,7 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidPropertyViaCtor()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: ComplexClass::bar');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: DTS\eBaySDK\Mocks\ComplexClass::bar');
 
         $obj = new ComplexClass([
             'bar' => 'bar'
@@ -35,7 +34,7 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingInvalidPropertyTypeViaCtor()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: ComplexClass::string expected <string>, got <integer>');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\ComplexClass::string expected <string>, got <integer>');
 
         $obj = new ComplexClass([
             'string' => 123

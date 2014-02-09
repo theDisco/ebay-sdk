@@ -19,12 +19,12 @@ abstract class BaseService
         $sandboxUrl,
         $config = array()
     ) {
-        self::ensureValidConfigProperties($config);    
-
         // Inject a 'sandbox' property for every derived class.
         if (!array_key_exists('sandbox', self::$configProperties[get_called_class()])) {
             self::$configProperties[get_called_class()]['sandbox'] = array('required' => false);
         }
+
+        self::ensureValidConfigProperties($config);    
 
         $this->httpClient = $httpClient;
         $this->productionUrl = $productionUrl;

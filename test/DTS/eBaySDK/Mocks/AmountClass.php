@@ -1,4 +1,5 @@
 <?php
+namespace DTS\eBaySDK\Mocks;
 
 class AmountClass extends \DTS\eBaySDK\Types\DoubleType
 {

@@ -1,4 +1,5 @@
 <?php
+namespace DTS\eBaySDK\Mocks;
 
 class SimpleClass extends \DTS\eBaySDK\Types\BaseType
 {
@@ -42,7 +43,7 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
                 'elementName' => 'DateTime'
             ],
             'simpleClass' => [
-                'type' => 'SimpleClass',
+                'type' => 'DTS\eBaySDK\Mocks\SimpleClass',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'SimpleClass'

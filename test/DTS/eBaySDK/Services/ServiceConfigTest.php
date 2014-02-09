@@ -1,17 +1,15 @@
 <?php
-require_once __DIR__ . '/../../../fixtures/TestService.php';
+use DTS\eBaySDK\Mocks\Service;
+use DTS\eBaySDK\Mocks\HttpClient;
 
-use DTS\eBaySDK\Services\BaseService;
-use DTS\eBaySDK\HttpClient\TestHttpClient;
-
-class BaseServiceConfigTest extends \PHPUnit_Framework_TestCase
+class ServiceConfigTest extends \PHPUnit_Framework_TestCase
 {
     private $obj;
 
     protected function setUp()
     {
         // BaseService is abstract so use class that is derived from it for testing.
-        $this->obj = new TestService(new TestHttpClient());
+        $this->obj = new Service(new HttpClient());
     }
 
     public function testConfig()

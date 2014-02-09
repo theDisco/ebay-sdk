@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
+use DTS\eBaySDK\Mocks\SimpleClass;
 
 class SimpleClassTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
 
     public function testCanBeCreated()
     {
-        $this->assertInstanceOf('SimpleClass', $this->obj);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $this->obj);
     }
 
     public function testExtendsBaseType()
@@ -50,7 +50,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $simpleClass = new SimpleClass();
         $this->obj->simpleClass = $simpleClass;
         $this->assertEquals($simpleClass, $this->obj->simpleClass);
-        $this->assertInstanceOf('SimpleClass', $this->obj->simpleClass);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $this->obj->simpleClass);
 
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
@@ -88,56 +88,56 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingNonExistentProperty()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: DTS\eBaySDK\Mocks\SimpleClass::foo');
 
         $this->obj->foo;
     }
 
     public function testSettingNonExistentProperty()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: DTS\eBaySDK\Mocks\SimpleClass::foo');
 
         $this->obj->foo = 'foo';
     }
 
     public function testSettingPropertyWithAnInvalidType()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integer expected <integer>, got <string>');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\SimpleClass::integer expected <integer>, got <string>');
 
         $this->obj->integer = 'foo';
     }
 
     public function testIsSetNonExistentProperty()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: DTS\eBaySDK\Mocks\SimpleClass::foo');
 
         isset($this->obj->foo);
     }
 
     public function testUnSetNonExistentProperty()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: SimpleClass::foo');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownPropertyException', 'Unknown property: DTS\eBaySDK\Mocks\SimpleClass::foo');
 
         isset($this->obj->foo);
     }
 
     public function testSettingUnboundPropertyWithAnInvalidType()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integers expected <integer>, got <string>');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\SimpleClass::integers expected <integer>, got <string>');
 
         $this->obj->integers[] = 'foo';
     }
 
     public function testSettingUnboundPropertyWithOneInvalidType()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integers expected <integer>, got <string>');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\SimpleClass::integers expected <integer>, got <string>');
 
         $this->obj->integers = [123, 'foo'];
     }
 
     public function testSettingUnboundPropertyDirectly()
     {
-        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: SimpleClass::integers expected <DTS\eBaySDK\Types\UnboundType>, got <integer>');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\SimpleClass::integers expected <DTS\eBaySDK\Types\UnboundType>, got <integer>');
 
         $this->obj->integers = 123;
     }
