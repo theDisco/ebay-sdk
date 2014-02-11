@@ -23,7 +23,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\DTS\eBaySDK\Mocks\ComplexClass', $obj);
 
-        // This is not in the XML and so should not be set. 
+        // This is not in the XML and so should not be set.
         $this->assertEquals(false, isset($this->obj->foo));
 
         $this->assertEquals(123, $obj->integer);
@@ -49,5 +49,13 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $obj->simpleClasses[1]);
         $this->assertEquals(999, $obj->simpleClasses[1]->integer);
         $this->assertEquals(543.21, $obj->amountClass->value);
+        $this->assertEquals('binary type', $obj->base64BinaryType->value);
+        $this->assertEquals(true, $obj->booleanType->value);
+        $this->assertEquals(123, $obj->decimalType->value);
+        $this->assertEquals(123.45, $obj->doubleType->value);
+        $this->assertEquals(123, $obj->integerType->value);
+        $this->assertEquals('string type', $obj->stringType->value);
+        $this->assertEquals('token type', $obj->tokenType->value);
+        $this->assertEquals('uri type', $obj->uriType->value);
     }
 }

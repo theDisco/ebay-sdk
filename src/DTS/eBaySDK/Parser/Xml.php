@@ -4,7 +4,7 @@ namespace DTS\eBaySDK\Parser;
 class Xml
 {
     private $parser;
-    
+
     private $rootObjectClass;
 
     private $rootObject;
@@ -15,8 +15,8 @@ class Xml
     {
         $this->parser = xml_parser_create('UTF-8');
 
-        xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, 0);      
-        xml_parser_set_option($this->parser, XML_OPTION_SKIP_WHITE, 1);      
+        xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, 0);
+        xml_parser_set_option($this->parser, XML_OPTION_SKIP_WHITE, 1);
         xml_set_object($this->parser, $this);
         xml_set_element_handler($this->parser, 'startElement', 'endElement');
         xml_set_character_data_handler($this->parser, 'cdata');
@@ -24,7 +24,7 @@ class Xml
         $this->rootObjectClass = $rootObjectClass;
 
         $this->metaStack = new \SplStack();
-    } 
+    }
 
     public function __destruct()
     {
@@ -139,7 +139,16 @@ class Xml
 
     private function setByValue($meta)
     {
-        return is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DoubleType', false);
+        return (
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\Base64BinaryType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\BooleanType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DecimalType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DoubleType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\IntegerType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\StringType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\TokenType', false) ||
+            is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\URIType', false)
+        );
     }
 
     private function strDataToSimplePhpType($meta)
@@ -161,8 +170,22 @@ class Xml
 
     private function strDataToSimplePhpValueType($meta)
     {
-        if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DoubleType', false)) {
+        if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\Base64BinaryType', false)) {
+            return $meta->strData;
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\BooleanType', false)) {
+            return $meta->strData === 'true';
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DecimalType', false)) {
+            return (integer)$meta->strData;
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DoubleType', false)) {
             return (double)$meta->strData;
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\IntegerType', false)) {
+            return (integer)$meta->strData;
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\StringType', false)) {
+            return $meta->strData;
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\TokenType', false)) {
+            return $meta->strData;
+        } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\URIType', false)) {
+            return $meta->strData;
         }
 
         return $meta->strData;
