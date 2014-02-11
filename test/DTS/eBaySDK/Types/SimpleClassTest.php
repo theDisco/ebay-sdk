@@ -1,5 +1,6 @@
 <?php
 use DTS\eBaySDK\Mocks\SimpleClass;
+use DTS\eBaySDK\Types;
 
 class SimpleClassTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,6 +70,55 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->strings = array();
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+
+        $this->obj->integers[] = 111;
+        $this->obj->integers[] = 222;
+        $this->assertEquals(2, count($this->obj->integers));
+        $this->assertEquals(111, $this->obj->integers[0]);
+        $this->assertEquals(222, $this->obj->integers[1]);
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->integers);
+
+        $this->obj->integers = array(111, 222);
+        $this->assertEquals(2, count($this->obj->integers));
+        $this->assertEquals(111, $this->obj->integers[0]);
+        $this->assertEquals(222, $this->obj->integers[1]);
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->integers);
+
+        $this->obj->integers = array();
+        $this->assertEquals(0, count($this->obj->integers));
+        $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->integers);
+
+        $this->obj->base64BinaryType = new Types\Base64BinaryType();
+        $this->obj->base64BinaryType->value = 'binary string';
+        $this->assertEquals('binary string', $this->obj->base64BinaryType->value);
+
+        $this->obj->booleanType = new Types\BooleanType();
+        $this->obj->booleanType->value = true;
+        $this->assertEquals(true, $this->obj->booleanType->value);
+
+        $this->obj->decimalType = new Types\DecimalType();
+        $this->obj->decimalType->value = 123;
+        $this->assertEquals(123, $this->obj->decimalType->value);
+
+        $this->obj->doubleType = new Types\DoubleType();
+        $this->obj->doubleType->value = 123.34;
+        $this->assertEquals(123.34, $this->obj->doubleType->value);
+
+        $this->obj->integerType = new Types\IntegerType();
+        $this->obj->integerType->value = 123;
+        $this->assertEquals(123, $this->obj->integerType->value);
+
+        $this->obj->stringType = new Types\StringType();
+        $this->obj->stringType->value = 'a string';
+        $this->assertEquals('a string', $this->obj->stringType->value);
+
+        $this->obj->tokenType = new Types\TokenType();
+        $this->obj->tokenType->value = 'a string';
+        $this->assertEquals('a string', $this->obj->tokenType->value);
+
+        $this->obj->uriType = new Types\URIType();
+        $this->obj->uriType->value = 'a string';
+        $this->assertEquals('a string', $this->obj->uriType->value);
     }
 
     public function testIsSet()
