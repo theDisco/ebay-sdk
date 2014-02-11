@@ -40,7 +40,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->obj->booleanFalse);
         $this->assertInternalType('boolean', $this->obj->booleanFalse);
 
-        $date = new \DateTime('2000-01-01', new DateTimeZone("UTC"));
+        $date = new \DateTime('2000-01-01', new \DateTimeZone('UTC'));
         $this->obj->dateTime = $date;
         $this->assertEquals($date, $this->obj->dateTime);
         $this->assertInstanceOf('\DateTime', $this->obj->dateTime);
@@ -60,13 +60,13 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $this->obj->strings[1]);
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
 
-        $this->obj->strings = ['foo', 'bar'];
+        $this->obj->strings = array('foo', 'bar');
         $this->assertEquals(2, count($this->obj->strings));
         $this->assertEquals('foo', $this->obj->strings[0]);
         $this->assertEquals('bar', $this->obj->strings[1]);
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
 
-        $this->obj->strings = [];
+        $this->obj->strings = array();
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
     }
@@ -130,7 +130,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\SimpleClass::integers expected <integer>, got <string>');
 
-        $this->obj->integers = [123, 'foo'];
+        $this->obj->integers = array(123, 'foo');
     }
 
     public function testSettingUnboundPropertyDirectly()
@@ -138,5 +138,16 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\DTS\eBaySDK\Exceptions\InvalidPropertyTypeException', 'Invalid property type: DTS\eBaySDK\Mocks\SimpleClass::integers expected <DTS\eBaySDK\Types\UnboundType>, got <integer>');
 
         $this->obj->integers = 123;
+    }
+
+    public function testCanGetElementMeta()
+    {
+        $this->assertEquals(array(
+            'propertyName' => 'simpleClass',
+            'type' => 'DTS\eBaySDK\Mocks\SimpleClass',
+            'unbound' => false,
+            'attribute' => false,
+            'elementName' => 'SimpleClass'
+        ), $this->obj->elementMeta('SimpleClass'));
     }
 }
