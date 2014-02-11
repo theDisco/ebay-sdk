@@ -52,6 +52,18 @@ class BaseType
         );
     }
 
+    public function elementMeta($elementName)
+    {
+        foreach (self::$properties[get_class($this)] as $name => $info) {
+            if ($info['elementName'] === $elementName) {
+                $info['propertyName'] = $name;
+                return $info;
+            }
+        }
+
+        return null;
+    }
+
     protected function setValues($class, array $values = [])
     {
         foreach ($values as $property => $value) {
