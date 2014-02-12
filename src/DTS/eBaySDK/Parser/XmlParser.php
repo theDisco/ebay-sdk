@@ -51,6 +51,15 @@ class XmlParser
     {
         $meta = $this->getPhpMeta($name);
 
+        foreach ($attributes as $attribute => $value) {
+            // These attribute will simply not exist in a PHP object.
+            if ('xmlns' === $attribute) {
+                continue;
+            }
+            $attributeMeta = $meta->phpObject->elementMeta($attribute);
+            $meta->phpObject->{$attributeMeta['propertyName']} = $value;
+        }
+
         $this->metaStack->push($meta);
     }
 

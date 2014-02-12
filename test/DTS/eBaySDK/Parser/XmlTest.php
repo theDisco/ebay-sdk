@@ -49,6 +49,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $obj->simpleClasses[1]);
         $this->assertEquals(999, $obj->simpleClasses[1]->integer);
         $this->assertEquals(543.21, $obj->amountClass->value);
+        $this->assertEquals('one', $obj->amountClass->attributeOne);
         $this->assertEquals('binary type', $obj->base64BinaryType->value);
         $this->assertEquals(true, $obj->booleanType->value);
         $this->assertEquals(123, $obj->decimalType->value);
