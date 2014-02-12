@@ -55,9 +55,12 @@ class BaseType
     public function elementMeta($elementName)
     {
         foreach (self::$properties[get_class($this)] as $name => $info) {
-            if ($info['elementName'] === $elementName) {
-                $info['propertyName'] = $name;
-                return $info;
+            $nameKey = $info['attribute'] ? 'attributeName' : 'elementName';
+            if (array_key_exists($nameKey, $info)) {
+                if ($info[$nameKey] === $elementName) {
+                    $info['propertyName'] = $name;
+                    return $info;
+                }
             }
         }
 
