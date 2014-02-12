@@ -2,10 +2,11 @@
 namespace DTS\eBaySDK\Services;
 
 use DTS\eBaySDK\Parser\XmlParser;
+use \DTS\eBaySDK\Exceptions;
 
 abstract class BaseService
 {
-    protected static $configProperties = array();
+    protected static $configOptions = array();
 
     private $httpClient;
 
@@ -16,17 +17,17 @@ abstract class BaseService
     private $sandboxUrl;
 
     public function __construct(
-        \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, 
+        \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient,
         $productionUrl,
         $sandboxUrl,
         $config = array()
     ) {
-        // Inject a 'sandbox' property for every derived class.
-        if (!array_key_exists('sandbox', self::$configProperties[get_called_class()])) {
-            self::$configProperties[get_called_class()]['sandbox'] = array('required' => false);
+        // Inject a 'sandbox' option for every derived class.
+        if (!array_key_exists('sandbox', self::$configOptions[get_called_class()])) {
+            self::$configOptions[get_called_class()]['sandbox'] = array('required' => false);
         }
 
-        self::ensureValidConfigProperties($config);    
+        self::ensureValidConfigOptions($config);
 
         $this->httpClient = $httpClient;
         $this->productionUrl = $productionUrl;
@@ -39,21 +40,22 @@ abstract class BaseService
      *
      * @param mixed Pass an associative array to set multiple configuration options. Pass a string to get or set a single configuration option.
      * @param mixed Will be the value that is assigned when the name of a configuration option is passed in as the first parameter.
-     * @throws InvalidArgumentException if an unknown configuration property is passed as an argument or via the associative array.
+     * @throws UnknownConfigurationOptionException if an unknown configuration option is passed as an argument or via the associative array.
+     *
      * @return mixed Returns an associative array of configuration options if no parameters are passed, otherwise returns the value for the specified configuration option.
      */
-    public function config($property = null, $value = null)
+    public function config($option = null, $value = null)
     {
-        if ($property !== null) {
-            self::ensureValidConfigProperties($property);
+        if ($option !== null) {
+            self::ensureValidConfigOptions($option);
 
-            if (!is_array($property)) {
+            if (!is_array($option)) {
                 if ($value !== null) {
-                    $this->config[$property] = $value;
+                    $this->config[$option] = $value;
                 }
-                return array_key_exists($property, $this->config) ? $this->config[$property] : null;
-            } 
-            $this->config = $property;
+                return array_key_exists($option, $this->config) ? $this->config[$option] : null;
+            }
+            $this->config = $option;
         }
         return $this->config;
     }
@@ -68,7 +70,7 @@ abstract class BaseService
 
         $xmlParser = new XmlParser($responseClass);
 
-        return $xmlParser->parse($response); 
+        return $xmlParser->parse($response);
     }
 
     /*
@@ -76,7 +78,7 @@ abstract class BaseService
      *
      * @param string $operationName The name of the operation been called.
      *
-     * @return array An associative array of eBay http headers. 
+     * @return array An associative array of eBay http headers.
      */
     abstract protected function getEbayHeaders($operationName);
 
@@ -85,24 +87,24 @@ abstract class BaseService
         return $this->config('sandbox') ? $this->sandboxUrl : $this->productionUrl;
     }
 
-    private static function ensureValidConfigProperties($property)
+    private static function ensureValidConfigOptions($option)
     {
         $class = get_called_class();
 
-        if (!is_array($property)) {
-            self::ensureValidConfigProperty($class, $property);
+        if (!is_array($option)) {
+            self::ensureValidConfigOption($class, $option);
         } else {
-            $properties = array_keys($property);
-            foreach ($properties as $prop) {
-                self::ensureValidConfigProperty($class, $prop);
+            $keys = array_keys($option);
+            foreach ($keys as $key) {
+                self::ensureValidConfigOption($class, $key);
             }
-      }
+        }
     }
 
-    private static function ensureValidConfigProperty($class, $property)
+    private static function ensureValidConfigOption($class, $option)
     {
-        if (!array_key_exists($property, self::$configProperties[$class])) {
-            throw new \InvalidArgumentException("Unknown configuration property: $property");
+        if (!array_key_exists($option, self::$configOptions[$class])) {
+            throw new Exceptions\UnknownConfigurationOptionException($class, $option);
         }
     }
 }

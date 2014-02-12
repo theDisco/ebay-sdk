@@ -43,25 +43,25 @@ class ServiceConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingInvalidConfig()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownConfigurationOptionException', 'Unknown configuration option: DTS\eBaySDK\Mocks\Service::bar');
 
-        $this->obj->config('invalid');
+        $this->obj->config('bar');
     }
 
     public function testSettingInvalidConfig()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownConfigurationOptionException', 'Unknown configuration option: DTS\eBaySDK\Mocks\Service::bar');
 
-        $this->obj->config('invalid', 'xxx');
+        $this->obj->config('bar', 'xxx');
     }
 
     public function testSettingInvalidConfigViaArray()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownConfigurationOptionException', 'Unknown configuration option: DTS\eBaySDK\Mocks\Service::bar');
 
         $config = $this->obj->config(array(
             'bish' => 'bish',
-            'invalid' => 'xxx'
+            'bar' => 'xxx'
         ));
     }
 

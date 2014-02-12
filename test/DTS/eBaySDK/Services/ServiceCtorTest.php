@@ -25,11 +25,11 @@ class ServiceCtorTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidConfigurationOptionsHaveBeenSetInCtor()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Unknown configuration property: invalid');
+        $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownConfigurationOptionException', 'Unknown configuration option: DTS\eBaySDK\Mocks\Service::bar');
 
         new Service(new HttpClient(), array(
             'bish' => 'bish',
-            'invalid' => 'xxx'
+            'bar' => 'xxx'
         ));
     }
 }
