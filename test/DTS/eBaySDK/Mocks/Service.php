@@ -10,6 +10,10 @@ class Service extends \DTS\eBaySDK\Mocks\BaseService
 
     public function foo(\DTS\eBaySDK\Mocks\ComplexClass $request)
     {
-        return $this->callOperation('foo', $request->toXml('FooRequest', true));    
+        return $this->callOperation(
+            'foo',
+            $request->toXml('FooRequest', true),
+            '\DTS\eBaySDK\Mocks\ComplexClass'
+        );
     }
 }

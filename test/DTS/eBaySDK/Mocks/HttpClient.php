@@ -21,5 +21,8 @@ class HttpClient implements \DTS\eBaySDK\Interfaces\HttpClientInterface
         $this->url = $url;
         $this->headers = $headers;
         $this->body = $body;
+
+        // Return a fake XML resposne.
+        return file_get_contents(__DIR__.'/../Mocks/Response.xml');
     }
 }
