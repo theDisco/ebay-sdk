@@ -1,17 +1,17 @@
 <?php
 
-use DTS\eBaySDK\Parser\Xml;
+use DTS\eBaySDK\Parser\XmlParser;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $this->xmlParser = new Xml('\DTS\eBaySDK\Mocks\ComplexClass');
+        $this->xmlParser = new XmlParser('\DTS\eBaySDK\Mocks\ComplexClass');
     }
 
     public function testCanBeCreated()
     {
-        $this->assertInstanceOf('\DTS\eBaySDK\Parser\Xml', $this->xmlParser);
+        $this->assertInstanceOf('\DTS\eBaySDK\Parser\XmlParser', $this->xmlParser);
     }
 
     public function testCanParseXml()

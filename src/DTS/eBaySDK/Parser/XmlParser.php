@@ -1,7 +1,7 @@
 <?php
 namespace DTS\eBaySDK\Parser;
 
-class Xml
+class XmlParser
 {
     private $parser;
 
