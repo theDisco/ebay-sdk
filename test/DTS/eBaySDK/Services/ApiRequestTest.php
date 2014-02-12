@@ -51,4 +51,10 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
         $this->service->foo($this->request);
         $this->assertEquals($this->request->toXml('FooRequest', true), $this->httpClient->body);
     }
+
+    public function testResponseIsReturned()
+    {
+        $response = $this->service->foo($this->request);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\ComplexClass', $response);
+    }
 }

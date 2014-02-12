@@ -1,6 +1,8 @@
 <?php
 namespace DTS\eBaySDK\Services;
 
+use DTS\eBaySDK\Parser\XmlParser;
+
 abstract class BaseService
 {
     protected static $configProperties = array();
@@ -56,13 +58,17 @@ abstract class BaseService
         return $this->config;
     }
 
-    protected function callOperation($name, $body)
+    protected function callOperation($name, $body, $responseClass)
     {
         $headers = $this->getEbayHeaders($name);
         $headers['Content-Type'] = 'text/xml';
         $headers['Content-Length'] = strlen($body);
 
-        $this->httpClient->post($this->getUrl(), $headers, $body);
+        $response = $this->httpClient->post($this->getUrl(), $headers, $body);
+
+        $xmlParser = new XmlParser($responseClass);
+
+        return $xmlParser->parse($response); 
     }
 
     /*
