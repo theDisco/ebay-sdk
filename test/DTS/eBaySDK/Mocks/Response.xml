@@ -24,7 +24,7 @@
     <simpleClasses xmlns="http://davidtsadler.com">
         <integer>999</integer>
     </simpleClasses>
-    <AmountClass AttributeOne="one" xmlns="http://davidtsadler.com">543.21</AmountClass>
+    <AmountClass AttributeOne="one" xmlns="http://davidtsadler.com" NonExistent="nonexistent">543.21</AmountClass>
     <base64BinaryType>binary type</base64BinaryType>
     <booleanType>true</booleanType>
     <decimalType>123</decimalType>
@@ -33,4 +33,7 @@
     <stringType>string type</stringType>
     <tokenType>token type</tokenType>
     <uriType>uri type</uriType>
+    <nonexistent>
+      <nonexistent>nonexistent</nonexistent>
+    </nonexistent>
 </root>

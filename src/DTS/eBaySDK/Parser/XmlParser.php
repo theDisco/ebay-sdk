@@ -49,23 +49,11 @@ class XmlParser
 
     private function startElement($parser, $name, array $attributes)
     {
-        $meta = $this->getPhpMeta($name);
-
-        foreach ($attributes as $attribute => $value) {
-            // These attribute will simply not exist in a PHP object.
-            if ('xmlns' === $attribute) {
-                continue;
-            }
-            $attributeMeta = $meta->phpObject->elementMeta($attribute);
-            $meta->phpObject->{$attributeMeta['propertyName']} = $value;
-        }
-
-        $this->metaStack->push($meta);
+        $this->metaStack->push($this->getPhpMeta($name, $attributes));
     }
 
     private function cdata($parser, $cdata)
     {
-
         $this->metaStack->top()->strData .= $cdata;
     }
 
@@ -74,21 +62,18 @@ class XmlParser
         $meta = $this->metaStack->pop();
 
         if (!$this->metaStack->isEmpty()) {
-            if ($this->isSimplePhpType($meta)) {
-                if (!$meta->unbound) {
-                    $this->metaStack->top()->phpObject->{$meta->propertyName} = $this->strDataToSimplePhpType($meta);
-                } else {
-                    $this->metaStack->top()->phpObject->{$meta->propertyName}[] = $this->strDataToSimplePhpType($meta);
-                }
-            } else {
-                if ($this->setByValue($meta)) {
-                    $meta->phpObject->value = $this->strDataToSimplePhpValueType($meta);
-                }
-
-                if (!$meta->unbound) {
-                    $this->metaStack->top()->phpObject->{$meta->propertyName} = $meta->phpObject;
-                } else {
-                    $this->metaStack->top()->phpObject->{$meta->propertyName}[] = $meta->phpObject;
+            // Element in the XML may not exist as a property name in the class.
+            // This could happen if the SDK is out of date with what eBay return.
+            // It could also happen if eBay return elements that are not mentioned in any WSDL.
+            if ($meta->propertyName !== '') { 
+                $parentObject = $this->getParentObject();
+                // Parent object may not have been created if it didn't exist as a property name.
+                if ($parentObject) {
+                    if (!$meta->unbound) {
+                        $parentObject->{$meta->propertyName} = $this->getValueToAssign($meta);
+                    } else {
+                        $parentObject->{$meta->propertyName}[] = $this->getValueToAssign($meta);
+                    }
                 }
             }
         } else {
@@ -96,30 +81,61 @@ class XmlParser
         }
     }
 
-    private function getPhpMeta($elementName)
+    private function getParentObject()
+    {
+        return $this->metaStack->top()->phpObject;
+    }
+
+    private function getPhpMeta($elementName, $attributes)
     {
         $meta = new \StdClass();
+        $meta->propertyName = '';
+        $meta->phpType = '';
+        $meta->unbound = false;
+        $meta->attribute = false;
+        $meta->elementName = '';
+        $meta->strData = '';
 
         if (!$this->metaStack->isEmpty()) {
-            $elementMeta = $this->metaStack->top()->phpObject->elementMeta($elementName);
-            $meta->propertyName = $elementMeta['propertyName'];
-            $meta->type = $elementMeta['type'];
-            $meta->unbound = $elementMeta['unbound'];
-            $meta->attribute = $elementMeta['attribute'];
-            $meta->elementName = $elementMeta['elementName'];
+            $parentObject = $this->getParentObject();
+            if ($parentObject) {
+                $elementMeta = $parentObject->elementMeta($elementName);
+                if ($elementMeta) {
+                    $meta->propertyName = $elementMeta['propertyName'];
+                    $meta->phpType = $elementMeta['type'];
+                    $meta->unbound = $elementMeta['unbound'];
+                    $meta->attribute = $elementMeta['attribute'];
+                    $meta->elementName = $elementMeta['elementName'];
+                }
+            }
         } else {
-            $meta->type = $this->rootObjectClass;
+            $meta->phpType = $this->rootObjectClass;
         }
 
-        $meta->strData = '';
         $meta->phpObject = $this->newPhpObject($meta);
+
+        if ($meta->phpObject) { 
+            foreach ($attributes as $attribute => $value) {
+                // These attribute will simply not exist in a PHP object.
+                if ('xmlns' === $attribute) {
+                    continue;
+                }
+                $attributeMeta = $meta->phpObject->elementMeta($attribute);
+                // Attribute in the XML may not exist as a property name in the class.
+                // This could happen if the SDK is out of date with what eBay return.
+                // It could also happen if eBay return elements that are not mentioned in any WSDL.
+                if ($attributeMeta) {
+                    $meta->phpObject->{$attributeMeta['propertyName']} = $value;
+                }
+            }
+        }
 
         return $meta;
     }
 
     private function newPhpObject($meta)
     {
-        switch ($meta->type) {
+        switch ($meta->phpType) {
             case 'integer':
             case 'string':
             case 'double':
@@ -127,13 +143,25 @@ class XmlParser
             case 'DateTime':
                 break;
             default:
-                return new $meta->type();
+                return $meta->phpType !== '' ? new $meta->phpType() : null;
+        }
+    }
+
+    private function getValueToAssign($meta)
+    {
+        if ($this->isSimplePhpType($meta)) {
+            return $this->getValueToAssignToProperty($meta);
+        } else {
+            if ($this->setByValue($meta)) {
+                $meta->phpObject->value = $this->getValueToAssignToValue($meta);
+            }
+            return $meta->phpObject;
         }
     }
 
     private function isSimplePhpType($meta)
     {
-        switch ($meta->type) {
+        switch ($meta->phpType) {
             case 'integer':
             case 'string':
             case 'double':
@@ -143,7 +171,6 @@ class XmlParser
             default:
                 return false;
         }
-
     }
 
     private function setByValue($meta)
@@ -160,9 +187,9 @@ class XmlParser
         );
     }
 
-    private function strDataToSimplePhpType($meta)
+    private function getValueToAssignToProperty($meta)
     {
-        switch ($meta->type) {
+        switch ($meta->phpType) {
             case 'integer':
                 return (integer)$meta->strData;
             case 'double':
@@ -177,7 +204,7 @@ class XmlParser
         }
     }
 
-    private function strDataToSimplePhpValueType($meta)
+    private function getValueToAssignToValue($meta)
     {
         if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\Base64BinaryType', false)) {
             return $meta->strData;
