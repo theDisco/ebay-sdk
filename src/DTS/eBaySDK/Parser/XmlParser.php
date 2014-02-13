@@ -195,7 +195,7 @@ class XmlParser
             case 'double':
                 return (double)$meta->strData;
             case 'boolean':
-                return $meta->strData === 'true';
+                return strtolower($meta->strData) === 'true';
             case 'DateTime':
                 return new \DateTime($meta->strData, new \DateTimeZone('UTC'));
             case 'string':
@@ -209,7 +209,7 @@ class XmlParser
         if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\Base64BinaryType', false)) {
             return $meta->strData;
         } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\BooleanType', false)) {
-            return $meta->strData === 'true';
+            return strtolower($meta->strData) === 'true';
         } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DecimalType', false)) {
             return (integer)$meta->strData;
         } else if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\DoubleType', false)) {
