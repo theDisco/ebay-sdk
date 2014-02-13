@@ -4,7 +4,7 @@
     <string>a string</string>
     <foo>foo</foo>
     <double>123.45</double>
-    <booleanTrue>true</booleanTrue>
+    <booleanTrue>TRUE</booleanTrue>
     <booleanFalse>false</booleanFalse>
     <DateTime>2000-01-01T16:15:30.123Z</DateTime>
     <SimpleClass xmlns="http://davidtsadler.com">
