@@ -1,10 +1,10 @@
 {
     "name": "dts/ebay-sdk",
-    "description": "An object oriented PHP SDK for the eBay API",
+    "description": "An eBay SDK for PHP. Use the eBay API in your PHP projects.",
     "keywords": ["ebay", "api", "sdk"],
     "homepage": "https://github.com/davidtsadler/ebay-sdk",
     "type": "library",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "David T. Sadler",
