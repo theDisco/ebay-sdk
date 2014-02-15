@@ -1,5 +1,7 @@
 # EBAY-SDK
 
+[![Build Status](https://travis-ci.org/davidtsadler/ebay-sdk.png)](https://travis-ci.org/davidtsadler/ebay-sdk)
+
 An eBay SDK for PHP. Use the eBay API in your PHP projects.
 
 This is the main dependancy for the below SDKs. The classes provide by this repository handle the mapping of the API XML requests and reponses to actual PHP objects. See each repository for using the SDK with the eBay API.
