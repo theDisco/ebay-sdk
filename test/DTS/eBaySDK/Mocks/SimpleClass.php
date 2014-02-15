@@ -3,112 +3,112 @@ namespace DTS\eBaySDK\Mocks;
 
 class SimpleClass extends \DTS\eBaySDK\Types\BaseType
 {
-    public function __construct(array $values = [])
+    public function __construct(array $values = array())
     {
-        $properties = [
-            'integer' => [
+        $properties = array(
+            'integer' => array(
                 'type' => 'integer',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'integer'
-            ],
-            'string' => [
+            ),
+            'string' => array(
                 'type' => 'string',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'string'
-            ],
-            'double' => [
+            ),
+            'double' => array(
                 'type' => 'double',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'double'
-            ],
-            'booleanTrue' => [
+            ),
+            'booleanTrue' => array(
                 'type' => 'boolean',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'booleanTrue'
-            ],
-            'booleanFalse' => [
+            ),
+            'booleanFalse' => array(
                 'type' => 'boolean',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'booleanFalse'
-            ],
-            'dateTime' => [
+            ),
+            'dateTime' => array(
                 'type' => 'DateTime',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'DateTime'
-            ],
-            'simpleClass' => [
+            ),
+            'simpleClass' => array(
                 'type' => 'DTS\eBaySDK\Mocks\SimpleClass',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'SimpleClass'
-            ],
-            'strings' => [
+            ),
+            'strings' => array(
                 'type' => 'string',
                 'unbound' => true,
                 'attribute' => false,
                 'elementName' => 'strings'
-            ],
-            'integers' => [
+            ),
+            'integers' => array(
                 'type' => 'integer',
                 'unbound' => true,
                 'attribute' => false,
                 'elementName' => 'integers'
-            ],
-            'base64BinaryType' => [
+            ),
+            'base64BinaryType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\Base64BinaryType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'base64BinaryType'
-            ],
-            'booleanType' => [
+            ),
+            'booleanType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\BooleanType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'booleanType'
-            ],
-            'decimalType' => [
+            ),
+            'decimalType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\DecimalType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'decimalType'
-            ],
-            'doubleType' => [
+            ),
+            'doubleType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\DoubleType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'doubleType'
-            ],
-            'integerType' => [
+            ),
+            'integerType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\IntegerType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'integerType'
-            ],
-            'stringType' => [
+            ),
+            'stringType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\StringType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'stringType'
-            ],
-            'tokenType' => [
+            ),
+            'tokenType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\TokenType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'tokenType'
-            ],
-            'uriType' => [
+            ),
+            'uriType' => array(
                 'type' => 'DTS\eBaySDK\Mocks\URIType',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'uriType'
-            ]
-        ];
+            )
+        );
 
         list($parentValues, $childValues) = self::getParentValues($properties, $values);
 
