@@ -1,16 +1,50 @@
 <?php
+/**
+ * Copyright 2014 David T. Sadler
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace DTS\eBaySDK\Parser;
 
+/**
+ * Responsible for parsing XML and returning a PHP object.
+ */
 class XmlParser
 {
+    /**
+     * @var resource Handles parsing the XML elements.
+     */
     private $parser;
 
+    /**
+     * @var string The name of the PHP class that will be created.
+     */
     private $rootObjectClass;
 
+    /**
+     * @var mixed The PHP object created from the XML.
+     */
     private $rootObject;
-
+    
+    /**
+     * @var \SplStack
+     */
     private $metaStack;
 
+    /**
+     * @param string $rootObjectClass The name of the PHP class that will be created.
+     */
     public function __construct($rootObjectClass)
     {
         $this->parser = xml_parser_create('UTF-8');
@@ -34,11 +68,11 @@ class XmlParser
     }
 
     /**
-     * Parse the passed xml to create a PHP object.
+     * Parse the passed XML to create a PHP object.
      *
      * @param string $xml The xml string to parse.
      *
-     * @returns mixed     A PHP object derived from DTS\eBaySDK\Types\BaseType
+     * @returns mixed A PHP object derived from DTS\eBaySDK\Types\BaseType
      */
     public function parse($xml)
     {
@@ -47,16 +81,38 @@ class XmlParser
         return $this->rootObject;
     }
 
+    /**
+     * Handler for the parser that is called at the start of each XML element.
+     *
+     * @param resource $parser Reference to the XML parser calling the handler.
+     * @param string $name The name of the element.
+     * @param arrary $attributes Associative array of the element's attributes.
+     */
     private function startElement($parser, $name, array $attributes)
     {
         $this->metaStack->push($this->getPhpMeta($name, $attributes));
     }
 
+    /**
+     * Handler for the parser that is called for character data.
+     * 
+     * @param resource $parser Reference to the XML parser calling the handler.
+     * @param string $cdata The character data.
+     */
     private function cdata($parser, $cdata)
     {
         $this->metaStack->top()->strData .= $cdata;
     }
 
+    /**
+     * Handler for the parser that is called at the end of each XML element.
+     *
+     * Creates the required PHP object that represents the element and assigns
+     * it to the parent PHP object.
+     *
+     * @param resource $parser Reference to the XML parser calling the handler.
+     * @param string $name The name of the element.
+     */
     private function endElement($parser, $name)
     {
         $meta = $this->metaStack->pop();
@@ -81,11 +137,26 @@ class XmlParser
         }
     }
 
+    /**
+     * Returns that parent PHP object.
+     *
+     * @returns mixed The parent PHP object.
+     */
     private function getParentObject()
     {
         return $this->metaStack->top()->phpObject;
     }
 
+    /**
+     * Looks up the PHP meta data for the element. 
+     *
+     * Allow the parser to build the required PHP object for an element. 
+     *
+     * @param string $name The name of the element.
+     * @param arrary $attributes Associative array of the element's attributes.
+     *
+     * @returns array Associative array containing the PHP meta data.
+     */
     private function getPhpMeta($elementName, $attributes)
     {
         $meta = new \StdClass();
@@ -133,6 +204,11 @@ class XmlParser
         return $meta;
     }
 
+    /**
+     * Builds the required PHP object.
+     *
+     * @param array $meta The PHP meta data.
+     */
     private function newPhpObject($meta)
     {
         switch ($meta->phpType) {
@@ -147,6 +223,13 @@ class XmlParser
         }
     }
 
+    /**
+     * Returns a value that will be assigned to an object's property.
+     *
+     * @param array $meta The PHP meta data.
+     *
+     * @returns mixed The value to assign.
+     */
     private function getValueToAssign($meta)
     {
         if ($this->isSimplePhpType($meta)) {
@@ -159,6 +242,13 @@ class XmlParser
         }
     }
 
+    /**
+     * Determines if the type of the property is simple.
+     *
+     * @param array $meta The PHP meta data.
+     *
+     * @returns boolean True if the property type is simlple.
+     */
     private function isSimplePhpType($meta)
     {
         switch ($meta->phpType) {
@@ -173,6 +263,13 @@ class XmlParser
         }
     }
 
+    /**
+     * Determines if the the property of an object is set by a _value_ property. 
+     *
+     * @param array $meta The PHP meta data.
+     *
+     * @returns boolean True if the property need to be set by _value_. 
+     */
     private function setByValue($meta)
     {
         return (
@@ -187,6 +284,13 @@ class XmlParser
         );
     }
 
+    /**
+     * Returns a value that will be assigned to an object's property.
+     *
+     * @param array $meta The PHP meta data.
+     *
+     * @returns boolean True if the property type is simlple.
+     */
     private function getValueToAssignToProperty($meta)
     {
         switch ($meta->phpType) {
@@ -204,6 +308,13 @@ class XmlParser
         }
     }
 
+    /**
+     * Returns a value that will be assigned to an object's _value_ property.
+     *
+     * @param array $meta The PHP meta data.
+     *
+     * @returns mixed The value to assign.
+     */
     private function getValueToAssignToValue($meta)
     {
         if (is_subclass_of($meta->phpObject, '\DTS\eBaySDK\Types\Base64BinaryType', false)) {
