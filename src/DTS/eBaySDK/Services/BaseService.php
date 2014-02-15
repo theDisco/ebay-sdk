@@ -1,21 +1,62 @@
 <?php
+/**
+ * Copyright 2014 David T. Sadler
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace DTS\eBaySDK\Services;
 
 use DTS\eBaySDK\Parser\XmlParser;
 use \DTS\eBaySDK\Exceptions;
 
+/**
+ * The base class for every eBay service class.
+ */
 abstract class BaseService
 {
+    /**
+     * @var array A list of configuration options allowed for each service class. 
+     */
     protected static $configOptions = array();
 
+    /**
+     * @var mixed The object that will handle the actual sending of the API request.
+     */
     private $httpClient;
 
+    /**
+     * @var array Associative array storing the current configuration option values.
+     */
     private $config;
 
+    /**
+     * @var string The production URL for the service.
+     */
     private $productionUrl;
 
+    /**
+     * @var string The sandbox URL for the service.
+     */
     private $sandboxUrl;
 
+    /**
+     * @param \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient The object that will handle sending requests to the API.
+     * @param string $productionUrl The production URL.
+     * @param string $sandboxUrl The sandbox URL.
+     * @param array $config Optional configuration option values. 
+     *
+     */
     public function __construct(
         \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient,
         $productionUrl,
@@ -60,6 +101,15 @@ abstract class BaseService
         return $this->config;
     }
 
+    /**
+     * Sends an API request.
+     *
+     * @param string $name The name of the operation.
+     * @param mixed PHP object containing the request information.
+     * @param string The name of the PHP class that will be created from the XML response.
+     *
+     * @returns mixed A PHP object created from the XML respose.
+     */
     protected function callOperation($name, $body, $responseClass)
     {
         $headers = $this->getEbayHeaders($name);
@@ -73,7 +123,7 @@ abstract class BaseService
         return $xmlParser->parse($response);
     }
 
-    /*
+    /**
      * Derived classes must implement this method that will build the needed eBay http headers.
      *
      * @param string $operationName The name of the operation been called.
@@ -82,11 +132,22 @@ abstract class BaseService
      */
     abstract protected function getEbayHeaders($operationName);
 
+    /**
+     * Helper functio to return the URL as determined by the sandbox configuration option.
+     *
+     * @returns string Either the production or sandbox URL.
+     */
     private function getUrl()
     {
         return $this->config('sandbox') ? $this->sandboxUrl : $this->productionUrl;
     }
 
+    /**
+     * Helper function to ensure that the passed configuration options exist.
+     *
+     * @param mixed $option Pass either the name of an option or an array of options.
+     * @throws UnknownConfigurationOptionException If an option does not exist.
+     */
     private static function ensureValidConfigOptions($option)
     {
         $class = get_called_class();
@@ -101,6 +162,12 @@ abstract class BaseService
         }
     }
 
+    /**
+     * Helper function to ensure that the passed configuration option exists.
+     *
+     * @param string $option The name of the option.
+     * @throws UnknownConfigurationOptionException If the option does not exist.
+     */
     private static function ensureValidConfigOption($class, $option)
     {
         if (!array_key_exists($option, self::$configOptions[$class])) {
