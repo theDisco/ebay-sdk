@@ -1,12 +1,10 @@
 <?php
-require_once __DIR__ . '/../../../fixtures/SimpleClass.php';
-require_once __DIR__ . '/../../../fixtures/AmountClass.php';
-require_once __DIR__ . '/../../../fixtures/ComplexClass.php';
+use DTS\eBaySDK\Mocks\AmountClass;
+use DTS\eBaySDK\Mocks\SimpleClass;
+use DTS\eBaySDK\Mocks\ComplexClass;
 
 class ComplexClassTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     protected function setUp()
     {
         $this->obj = new ComplexClass();
@@ -14,12 +12,12 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
 
     public function testCanBeCreated()
     {
-        $this->assertInstanceOf('ComplexClass', $this->obj);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\ComplexClass', $this->obj);
     }
 
     public function testExtendsSimpleClass()
     {
-        $this->assertInstanceOf('SimpleClass', $this->obj);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $this->obj);
     }
 
     public function testGettingSettingProperties()
@@ -59,7 +57,7 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $simpleClass = new SimpleClass();
         $this->obj->simpleClass = $simpleClass;
         $this->assertEquals($simpleClass, $this->obj->simpleClass);
-        $this->assertInstanceOf('SimpleClass', $this->obj->simpleClass);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $this->obj->simpleClass);
 
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
@@ -110,6 +108,6 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
           new SimpleClass(['integer' => 999])
         ];
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../../fixtures/ComplexClassXml.xml', $this->obj->toXml('root', true));
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toXml('root', true));
     }
 }

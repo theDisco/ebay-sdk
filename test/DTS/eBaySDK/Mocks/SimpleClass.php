@@ -1,4 +1,5 @@
 <?php
+namespace DTS\eBaySDK\Mocks;
 
 class SimpleClass extends \DTS\eBaySDK\Types\BaseType
 {
@@ -42,7 +43,7 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
                 'elementName' => 'DateTime'
             ],
             'simpleClass' => [
-                'type' => 'SimpleClass',
+                'type' => 'DTS\eBaySDK\Mocks\SimpleClass',
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'SimpleClass'
@@ -58,6 +59,54 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
                 'unbound' => true,
                 'attribute' => false,
                 'elementName' => 'integers'
+            ],
+            'base64BinaryType' => [
+                'type' => 'DTS\eBaySDK\Mocks\Base64BinaryType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'base64BinaryType'
+            ],
+            'booleanType' => [
+                'type' => 'DTS\eBaySDK\Mocks\BooleanType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'booleanType'
+            ],
+            'decimalType' => [
+                'type' => 'DTS\eBaySDK\Mocks\DecimalType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'decimalType'
+            ],
+            'doubleType' => [
+                'type' => 'DTS\eBaySDK\Mocks\DoubleType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'doubleType'
+            ],
+            'integerType' => [
+                'type' => 'DTS\eBaySDK\Mocks\IntegerType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'integerType'
+            ],
+            'stringType' => [
+                'type' => 'DTS\eBaySDK\Mocks\StringType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'stringType'
+            ],
+            'tokenType' => [
+                'type' => 'DTS\eBaySDK\Mocks\TokenType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'tokenType'
+            ],
+            'uriType' => [
+                'type' => 'DTS\eBaySDK\Mocks\URIType',
+                'unbound' => false,
+                'attribute' => false,
+                'elementName' => 'uriType'
             ]
         ];
 

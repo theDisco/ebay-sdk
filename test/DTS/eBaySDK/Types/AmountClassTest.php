@@ -1,10 +1,8 @@
 <?php
-require_once __DIR__ . '/../../../fixtures/AmountClass.php';
+use DTS\eBaySDK\Mocks\AmountClass;
 
 class AmountClassTest extends \PHPUnit_Framework_TestCase
 {
-    private $obj;
-
     protected function setUp()
     {
         $this->obj = new AmountClass();
@@ -12,7 +10,7 @@ class AmountClassTest extends \PHPUnit_Framework_TestCase
 
     public function testCanBeCreated()
     {
-        $this->assertInstanceOf('AmountClass', $this->obj);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\AmountClass', $this->obj);
     }
 
     public function testExtendsDoubleType()
@@ -26,6 +24,6 @@ class AmountClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->attributeOne = 'one';
         $this->obj->attributeTwo = 'two';
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../../../fixtures/AmountClassXml.xml', $this->obj->toXml('Price', true));
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/AmountClassXml.xml', $this->obj->toXml('Price', true));
     }
 }
