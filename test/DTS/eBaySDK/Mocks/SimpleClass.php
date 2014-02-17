@@ -107,6 +107,36 @@ class SimpleClass extends \DTS\eBaySDK\Types\BaseType
                 'unbound' => false,
                 'attribute' => false,
                 'elementName' => 'uriType'
+            ),
+            'integerAttribute' => array(
+                'type' => 'integer',
+                'unbound' => false,
+                'attribute' => true,
+                'attributeName' => 'IntegerAttribute'
+            ),
+            'doubleAttribute' => array(
+                'type' => 'double',
+                'unbound' => false,
+                'attribute' => true,
+                'attributeName' => 'doubleAttribute'
+            ),
+            'booleanTrueAttribute' => array(
+                'type' => 'boolean',
+                'unbound' => false,
+                'attribute' => true,
+                'attributeName' => 'BooleanTrueAttribute'
+            ),
+            'booleanFalseAttribute' => array(
+                'type' => 'boolean',
+                'unbound' => false,
+                'attribute' => true,
+                'attributeName' => 'booleanFalseAttribute'
+            ),
+            'dateTimeAttribute' => array(
+                'type' => 'DateTime',
+                'unbound' => false,
+                'attribute' => true,
+                'attributeName' => 'DateTimeAttribute'
             )
         );
 

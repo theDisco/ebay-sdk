@@ -36,6 +36,11 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $obj->simpleClass);
         $this->assertEquals(321, $obj->simpleClass->integer);
         $this->assertEquals('another string', $obj->simpleClass->string);
+        $this->assertEquals(123, $obj->simpleClass->integerAttribute);
+        $this->assertEquals(123.45, $obj->simpleClass->doubleAttribute);
+        $this->assertEquals(true, $obj->simpleClass->booleanTrueAttribute);
+        $this->assertEquals(false, $obj->simpleClass->booleanFalseAttribute);
+        $this->assertEquals(new \DateTime('2000-01-01T16:15:30.123Z', new \DateTimeZone('UTC')), $obj->simpleClass->dateTimeAttribute);
         $this->assertEquals('foo', $obj->strings[0]);
         $this->assertEquals('bar', $obj->strings[1]);
         $this->assertEquals(1, $obj->integers[0]);
