@@ -199,12 +199,14 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
 
     public function testCanGetElementMeta()
     {
-        $this->assertEquals(array(
-            'propertyName' => 'simpleClass',
-            'type' => 'DTS\eBaySDK\Mocks\SimpleClass',
-            'unbound' => false,
-            'attribute' => false,
-            'elementName' => 'SimpleClass'
-        ), $this->obj->elementMeta('SimpleClass'));
+        $meta = new \StdClass();
+        $meta->propertyName = 'simpleClass';
+        $meta->phpType = 'DTS\eBaySDK\Mocks\SimpleClass';
+        $meta->unbound = false;
+        $meta->attribute = false;
+        $meta->elementName = 'SimpleClass';
+        $meta->strData = '';
+
+        $this->assertEquals($meta, $this->obj->elementMeta('SimpleClass'));
     }
 }

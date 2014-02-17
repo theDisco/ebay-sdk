@@ -146,8 +146,15 @@ class BaseType
             $nameKey = $info['attribute'] ? 'attributeName' : 'elementName';
             if (array_key_exists($nameKey, $info)) {
                 if ($info[$nameKey] === $elementName) {
-                    $info['propertyName'] = $name;
-                    return $info;
+                    $meta = new \StdClass();
+                    $meta->propertyName = $name;
+                    $meta->phpType = $info['type'];
+                    $meta->unbound = $info['unbound'];
+                    $meta->attribute = $info['attribute'];
+                    $meta->elementName = $info[$nameKey];
+                    $meta->strData = '';
+
+                    return $meta;
                 }
             }
         }

@@ -172,11 +172,7 @@ class XmlParser
             if ($parentObject) {
                 $elementMeta = $parentObject->elementMeta($elementName);
                 if ($elementMeta) {
-                    $meta->propertyName = $elementMeta['propertyName'];
-                    $meta->phpType = $elementMeta['type'];
-                    $meta->unbound = $elementMeta['unbound'];
-                    $meta->attribute = $elementMeta['attribute'];
-                    $meta->elementName = $elementMeta['elementName'];
+                    $meta = $elementMeta;
                 }
             }
         } else {
@@ -196,7 +192,8 @@ class XmlParser
                 // This could happen if the SDK is out of date with what eBay return.
                 // It could also happen if eBay return elements that are not mentioned in any WSDL.
                 if ($attributeMeta) {
-                    $meta->phpObject->{$attributeMeta['propertyName']} = $value;
+                    $attributeMeta->strData = $value;
+                    $meta->phpObject->{$attributeMeta->propertyName} = $this->getValueToAssignToProperty($attributeMeta);
                 }
             }
         }
