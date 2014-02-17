@@ -1,6 +1,6 @@
 # EBAY-SDK
 
-[![Build Status](https://travis-ci.org/davidtsadler/ebay-sdk.png?branch=master)](https://travis-ci.org/davidtsadler/ebay-sdk)
+[![Build Status](https://travis-ci.org/davidtsadler/ebay-sdk.png?branch=develop)](https://travis-ci.org/davidtsadler/ebay-sdk)
 
 An eBay SDK for PHP. Use the eBay API in your PHP projects.
 
