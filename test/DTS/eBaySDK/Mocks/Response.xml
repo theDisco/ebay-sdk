@@ -7,7 +7,7 @@
     <booleanTrue>TRUE</booleanTrue>
     <booleanFalse>false</booleanFalse>
     <DateTime>2000-01-01T16:15:30.123Z</DateTime>
-    <SimpleClass xmlns="http://davidtsadler.com">
+    <SimpleClass xmlns="http://davidtsadler.com" IntegerAttribute="123" doubleAttribute="123.45" BooleanTrueAttribute="TRUE" booleanFalseAttribute="false" DateTimeAttribute="2000-01-01T16:15:30.123Z">
         <integer>321</integer>
         <string>another string</string>
     </SimpleClass>
