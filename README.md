@@ -23,3 +23,7 @@ This is the main dependancy for the below SDKs. The classes provide by this repo
   - [Resolution Case Management](https://github.com/davidtsadler/ebay-sdk-resolution-case-management)
   - [Return Management](https://github.com/davidtsadler/ebay-sdk-return-management)
   - [Seller Offers](https://github.com/davidtsadler/ebay-sdk-seller-offers)
+
+## SDK and eBay API versions.
+
+As eBay release new versions of their API the corresponding SDK version will be shown [here](https://github.com/davidtsadler/ebay-sdk/wiki/SDK-and-eBay-API-Versions).
