@@ -36,7 +36,7 @@ class Base64BinaryType extends \DTS\eBaySDK\Types\BaseType
     );
 
     /**
-     * @param array $values Optional propertie and values to assign to the object.
+     * @param array $values Optional properties and values to assign to the object.
      */
     public function __construct(array $values = array())
     {
