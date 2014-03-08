@@ -2,6 +2,7 @@
 use DTS\eBaySDK\Mocks\Service;
 use DTS\eBaySDK\Mocks\ComplexClass;
 use DTS\eBaySDK\Mocks\HttpClient;
+use DTS\eBaySDK\Mocks\Logger;
 
 class ApiRequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +20,8 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
         $this->httpClient = new HttpClient();
         // BaseService is abstract so use class that is derived from it for testing.
         $this->service = new Service($this->httpClient);
-        $this->request= new ComplexClass();
+        $this->request = new ComplexClass();
+        $this->logger = new Logger();
     }
 
     public function testProductionUrlIsUsed()
@@ -56,5 +58,39 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
     {
         $response = $this->service->foo($this->request);
         $this->assertInstanceOf('\DTS\eBaySDK\Mocks\ComplexClass', $response);
+    }
+
+    public function testLogging()
+    {
+        // If no logger has been assigned there should be no debug messages.
+        $this->assertEquals(null, $this->service->logger());
+        $this->service->foo($this->request);
+        $this->assertEquals(0, count($this->logger->debugMessages));
+
+        // Even if the configuration is set to log debugging.
+        $this->assertEquals(null, $this->service->logger());
+        $this->service->config('debug', true);
+        $this->service->foo($this->request);
+        $this->assertEquals(0, count($this->logger->debugMessages));
+
+        // Now check that debugging information is logged.
+        $this->service->logger($this->logger);
+        $this->service->config('debug', true);
+        $this->service->foo($this->request);
+    
+        $debugRequest = $this->logger->debugMessages[0];
+        $this->assertEquals('Request', $debugRequest['message']);
+        $this->assertEquals('http://production.com', $debugRequest['context']['url']);
+        $this->assertEquals('foo', $debugRequest['context']['name']);
+        $this->assertEquals(array(
+            'fooHdr' => 'foo',
+            'Content-Type' => 'text/xml',
+            'Content-Length' => strlen($this->request->toXml('FooRequest', true))
+        ), $debugRequest['context']['headers']);
+        $this->assertEquals($this->request->toXml('FooRequest', true), $debugRequest['context']['body']);
+      
+        $debugResponse = $this->logger->debugMessages[1];
+        $this->assertEquals('Response', $debugResponse['message']);
+        $this->assertEquals(file_get_contents(__DIR__.'/../Mocks/Response.xml'), $debugResponse['context']['body']);
     }
 }
