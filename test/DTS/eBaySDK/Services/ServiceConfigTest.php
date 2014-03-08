@@ -73,4 +73,13 @@ class ServiceConfigTest extends \PHPUnit_Framework_TestCase
         $this->obj->config('sandbox', true);
         $this->assertEquals(true, $this->obj->config('sandbox'));
     }
+
+    public function testDebugConfigExists()
+    {
+        // Should default to false.
+        $this->assertEquals(false, $this->obj->config('debug'));
+
+        $this->obj->config('debug', true);
+        $this->assertEquals(true, $this->obj->config('debug'));
+    }
 }
