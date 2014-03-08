@@ -51,6 +51,11 @@ abstract class BaseService
     private $sandboxUrl;
 
     /**
+     * @var \Psr\Log\LoggerInterface The logger for the service.
+     */
+    private $logger;
+
+    /**
      * @param \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient The object that will handle sending requests to the API.
      * @param string $productionUrl The production URL.
      * @param string $sandboxUrl The sandbox URL.
@@ -68,12 +73,18 @@ abstract class BaseService
             self::$configOptions[get_called_class()]['sandbox'] = array('required' => false);
         }
 
+        // Inject a 'debug' option for every derived class.
+        if (!array_key_exists('debug', self::$configOptions[get_called_class()])) {
+            self::$configOptions[get_called_class()]['debug'] = array('required' => false);
+        }
+
         self::ensureValidConfigOptions($config);
 
         $this->httpClient = $httpClient;
         $this->productionUrl = $productionUrl;
         $this->sandboxUrl = $sandboxUrl;
         $this->config = $config;
+        $this->logger = null;
     }
 
     /**
@@ -101,6 +112,21 @@ abstract class BaseService
         return $this->config;
     }
 
+    /** 
+     *
+     * @param $logger \Psr\Log\LoggerInterface The logger instance the service will use.
+     *
+     * @return \Psr\Log\LoggerInterface The logger instance or null if one hasn't been assigned.
+     */
+    public function logger(\Psr\Log\LoggerInterface $logger = null)
+    {
+        if ($logger) {
+            $this->logger = $logger;
+        }
+
+        return $this->logger;
+    }
+
     /**
      * Sends an API request.
      *
@@ -112,11 +138,22 @@ abstract class BaseService
      */
     protected function callOperation($name, $body, $responseClass)
     {
+        $debug = $this->config('debug');
+
+        $url = $this->getUrl();
         $headers = $this->getEbayHeaders($name);
         $headers['Content-Type'] = 'text/xml';
         $headers['Content-Length'] = strlen($body);
 
-        $response = $this->httpClient->post($this->getUrl(), $headers, $body);
+        if ($debug) {
+            $this->logRequest($url, $name, $headers, $body);
+        }
+
+        $response = $this->httpClient->post($url, $headers, $body);
+
+        if ($debug) {
+            $this->logResponse($response);
+        }
 
         $xmlParser = new XmlParser($responseClass);
 
@@ -133,7 +170,7 @@ abstract class BaseService
     abstract protected function getEbayHeaders($operationName);
 
     /**
-     * Helper functio to return the URL as determined by the sandbox configuration option.
+     * Helper function to return the URL as determined by the sandbox configuration option.
      *
      * @returns string Either the production or sandbox URL.
      */
@@ -172,6 +209,40 @@ abstract class BaseService
     {
         if (!array_key_exists($option, self::$configOptions[$class])) {
             throw new Exceptions\UnknownConfigurationOptionException($class, $option);
+        }
+    }
+
+    /**
+     * Logs the request details.
+     *
+     * @param string $name The name of the operation.
+     * @param string $url API endpoint.
+     * @param array  $headers Associative array of HTTP headers.
+     * @param string $body The XML body of the POST request.
+      */
+    private function logRequest($url, $name, $headers, $body)
+    {
+        if ($this->logger) {
+            $this->logger->debug('Request', array(
+                'url' => $url,
+                'name' => $name,
+                'headers' => $headers,
+                'body' => $body
+            ));
+        }
+    }
+
+    /**
+     * Logs the response details.
+     *
+     * @param string $body The XML body of the response.
+      */
+    private function logResponse($body)
+    {
+        if ($this->logger) {
+            $this->logger->debug('Response', array(
+                'body' => $body
+            ));
         }
     }
 }

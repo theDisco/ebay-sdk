@@ -5,7 +5,7 @@
     <double>123.45</double>
     <booleanTrue>true</booleanTrue>
     <booleanFalse>false</booleanFalse>
-    <DateTime>2000-01-01T0:00:00.000Z</DateTime>
+    <DateTime>2000-01-01T00:00:00.000Z</DateTime>
     <SimpleClass xmlns="http://davidtsadler.com">
         <integer>321</integer>
         <string>another string</string>
