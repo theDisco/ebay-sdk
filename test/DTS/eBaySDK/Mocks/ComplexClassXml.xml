@@ -17,8 +17,10 @@
     <integers>3</integers>
     <integers>4</integers>
     <integers>5</integers>
+    <BISH>foo</BISH>
+    <BishBash>foo</BishBash>
     <foo>foo</foo>
-    <AmountClass AttributeOne="one" xmlns="http://davidtsadler.com">543.21</AmountClass>
+    <AmountClass AttributeOne="one" ATTRIBUTEBISH="two" xmlns="http://davidtsadler.com">543.21</AmountClass>
     <simpleClasses xmlns="http://davidtsadler.com">
         <integer>888</integer>
     </simpleClasses>
