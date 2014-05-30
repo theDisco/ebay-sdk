@@ -126,12 +126,41 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->uriType = new URIType();
         $this->obj->uriType->value = 'uri type';
         $this->assertEquals('uri type', $this->obj->uriType->value);
+
+        $this->obj->bish = 'foo';
+        $this->assertEquals('foo', $this->obj->bish);
+        $this->assertInternalType('string', $this->obj->bish);
+
+        // Should be able to set the property using its element name.
+        $this->obj->BISH = 'foo';
+        $this->assertEquals('foo', $this->obj->BISH);
+        $this->assertInternalType('string', $this->obj->BISH);
+
+        // Set via property name but get from its element name.
+        $this->obj->bish = 'foo';
+        $this->assertEquals('foo', $this->obj->BISH);
+
+        $this->obj->bishBash = 'foo';
+        $this->assertEquals('foo', $this->obj->bishBash);
+        $this->assertInternalType('string', $this->obj->bishBash);
+
+        // Should be able to set the property using its element name.
+        $this->obj->BishBash = 'foo';
+        $this->assertEquals('foo', $this->obj->BishBash);
+        $this->assertInternalType('string', $this->obj->BishBash);
+
+        // Set via property name but get from its element name.
+        $this->obj->bishBash = 'foo';
+        $this->assertEquals('foo', $this->obj->BishBash);
     }
 
     public function testIsSet()
     {
         $this->obj->string = 'foo';
         $this->assertEquals(true, isset($this->obj->string));
+
+        $this->obj->BISH = 'foo';
+        $this->assertEquals(true, isset($this->obj->BISH));
     }
 
     public function testUnSet()
@@ -139,6 +168,10 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->string = 'foo';
         unset($this->obj->string);
         $this->assertEquals(false, isset($this->obj->string));
+
+        $this->obj->BISH = 'foo';
+        unset($this->obj->BISH);
+        $this->assertEquals(false, isset($this->obj->BISH));
     }
 
     public function testGettingNonExistentProperty()
