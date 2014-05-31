@@ -40,7 +40,9 @@ class BooleanType extends \DTS\eBaySDK\Types\BaseType
      */
     public function __construct(array $values = array())
     {
-        list($parentValues, $childValues) = self::getParentValues(__CLASS__, self::$propertyTypes, $values);
+        $elementNamesMap = self::buildElementNamesMap(self::$propertyTypes);
+
+        list($parentValues, $childValues) = self::getParentValues($elementNamesMap, self::$propertyTypes, $values);
 
         parent::__construct($parentValues);
 
@@ -49,7 +51,7 @@ class BooleanType extends \DTS\eBaySDK\Types\BaseType
         }
 
         if (!array_key_exists(__CLASS__, self::$elementNames)) {
-            self::$elementNames[__CLASS__] = array_merge(self::$elementNames[get_parent_class()], self::buildElementNamesMap(self::$propertyTypes));
+            self::$elementNames[__CLASS__] = array_merge(self::$elementNames[get_parent_class()], $elementNamesMap);
         }
 
         $this->setValues(__CLASS__, $childValues);

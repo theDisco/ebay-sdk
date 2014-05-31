@@ -448,14 +448,14 @@ class BaseType
      * @returns array The first element is an array of parent properties and values.
      *                The second element is an array of the object's properties and values.
      */
-    protected static function getParentValues($class, array $properties = array(), array $values = array())
+    protected static function getParentValues(array $elementNamesMap, array $properties = array(), array $values = array())
     {
         /*
          * Take into account that $values may be using element names instead of property names.
          */
         $propertyValues = array();
         foreach ($values as $name => $value) {
-            $propertyName = self::mapToPropertyName($class, $name);
+            $propertyName = array_key_exists($name, $elementNamesMap) ? $elementNamesMap[$name] : $name;
             $propertyValues[$propertyName] = $value;
         }
 
