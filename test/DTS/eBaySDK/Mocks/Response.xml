@@ -24,7 +24,7 @@
     <simpleClasses xmlns="http://davidtsadler.com">
         <integer>999</integer>
     </simpleClasses>
-    <AmountClass AttributeOne="one" xmlns="http://davidtsadler.com" NonExistent="nonexistent">543.21</AmountClass>
+    <AmountClass AttributeOne="one" ATTRIBUTEBISH="two" xmlns="http://davidtsadler.com" NonExistent="nonexistent">543.21</AmountClass>
     <base64BinaryType>binary type</base64BinaryType>
     <booleanType>true</booleanType>
     <decimalType>123</decimalType>
@@ -36,4 +36,6 @@
     <nonexistent>
       <nonexistent>nonexistent</nonexistent>
     </nonexistent>
+    <BISH>foo</BISH>
+    <BishBash>foo</BishBash>
 </root>

@@ -78,6 +78,32 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->strings = array();
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
+
+        $this->obj->bish = 'foo';
+        $this->assertEquals('foo', $this->obj->bish);
+        $this->assertInternalType('string', $this->obj->bish);
+
+        // Should be able to set the property using its element name.
+        $this->obj->BISH = 'foo';
+        $this->assertEquals('foo', $this->obj->BISH);
+        $this->assertInternalType('string', $this->obj->BISH);
+
+        // Set via property name but get from its element name.
+        $this->obj->bish = 'foo';
+        $this->assertEquals('foo', $this->obj->BISH);
+
+        $this->obj->bishBash = 'foo';
+        $this->assertEquals('foo', $this->obj->bishBash);
+        $this->assertInternalType('string', $this->obj->bishBash);
+
+        // Should be able to set the property using its element name.
+        $this->obj->BishBash = 'foo';
+        $this->assertEquals('foo', $this->obj->BishBash);
+        $this->assertInternalType('string', $this->obj->BishBash);
+
+        // Set via property name but get from its element name.
+        $this->obj->bishBash = 'foo';
+        $this->assertEquals('foo', $this->obj->BishBash);
     }
 
     public function testToXml()
@@ -98,6 +124,7 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $amountClass = new AmountClass();
         $amountClass->value = 543.21;
         $amountClass->attributeOne = 'one';
+        $amountClass->ATTRIBUTEBISH= 'two';
         $this->obj->amountClass = $amountClass;
 
         $this->obj->strings = array('foo', 'bar');
@@ -107,6 +134,9 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
             new SimpleClass(array('integer' => 888)),
             new SimpleClass(array('integer' => 999))
         );
+
+        $this->obj->BISH = 'foo';
+        $this->obj->BishBash = 'foo';
 
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toXml('root', true));
     }

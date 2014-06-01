@@ -55,6 +55,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(999, $obj->simpleClasses[1]->integer);
         $this->assertEquals(543.21, $obj->amountClass->value);
         $this->assertEquals('one', $obj->amountClass->attributeOne);
+        $this->assertEquals('one', $obj->amountClass->AttributeOne);
+        $this->assertEquals('two', $obj->amountClass->attributeBish);
+        $this->assertEquals('two', $obj->amountClass->ATTRIBUTEBISH);
         $this->assertEquals('binary type', $obj->base64BinaryType->value);
         $this->assertEquals(true, $obj->booleanType->value);
         $this->assertEquals(123, $obj->decimalType->value);
@@ -63,5 +66,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('string type', $obj->stringType->value);
         $this->assertEquals('token type', $obj->tokenType->value);
         $this->assertEquals('uri type', $obj->uriType->value);
+        $this->assertEquals('foo', $obj->bish);
+        $this->assertEquals('foo', $obj->BISH);
+        $this->assertEquals('foo', $obj->bishBash);
+        $this->assertEquals('foo', $obj->BishBash);
     }
 }

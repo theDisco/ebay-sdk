@@ -31,21 +31,26 @@ class BaseType
      *            The array key is the class name of the PHP object.
      *            This way we only store a single copy of the meta data for each class.
      *            For each class name the value will be an associative array.
-     *            The array key is the name that client code will use to access the property. 
+     *            The array key is the name that client code will use to access the property.
      *            The value is an associative array which is the meta data for the property.
      *
-     *            'subject' => array(                  The name of the property.
-     *                'type' => 'string',         The data type or class name. 
+     *            'subject' => array(             The name of the property.
+     *                'type' => 'string',         The data type or class name.
      *                'unbound' => false,         Indicates if the property is unbound, I.e is an array.
      *                'attribute' => false,       Indicates if the proeprty is an attribute in the XML.
      *                'elementName' => 'Subject'  The corressponding element in the XML.
      *            )
-     *             
+     *
      */
     protected static $properties = array();
 
     /**
-     * @var array Associative array. Key is the class name and the value is the xml namespace. 
+     * @var array Associative array containing mapping element names to property names.
+     */
+    protected static $elementNames = array();
+
+    /**
+     * @var array Associative array. Key is the class name and the value is the xml namespace.
      */
     protected static $xmlNamespaces = array();
 
@@ -62,6 +67,10 @@ class BaseType
     {
         if (!array_key_exists(__CLASS__, self::$properties)) {
             self::$properties[__CLASS__] = array();
+        }
+
+        if (!array_key_exists(__CLASS__, self::$elementNames)) {
+            self::$elementNames[__CLASS__] = array();
         }
 
         $this->setValues(__CLASS__, $values);
@@ -118,12 +127,12 @@ class BaseType
      */
     public function toXml($elementName, $rootElement = false)
     {
-        return sprintf('%s<%s%s%s>%s</%s>', 
+        return sprintf('%s<%s%s%s>%s</%s>',
             $rootElement ? '<?xml version="1.0" encoding="UTF-8"?>' : '',
-            $elementName, 
+            $elementName,
             $this->attributesToXml(),
-            array_key_exists(get_class($this), self::$xmlNamespaces) ? sprintf(' xmlns="%s"', self::$xmlNamespaces[get_class($this)]) : '', 
-            $this->propertiesToXml(), 
+            array_key_exists(get_class($this), self::$xmlNamespaces) ? sprintf(' xmlns="%s"', self::$xmlNamespaces[get_class($this)]) : '',
+            $this->propertiesToXml(),
             $elementName
         );
     }
@@ -133,8 +142,6 @@ class BaseType
      *
      * This method is used when parsing the XML into a PHP object. The parser
      * needs the meta data for a property when the parser has only the element name.
-     * Because the property name may not be the same as the element's we have to
-     * looop through all the properties.
      *
      * @param $string $elementName The XML element that we want the meta for.
      *
@@ -142,12 +149,15 @@ class BaseType
      */
     public function elementMeta($elementName)
     {
-        foreach (self::$properties[get_class($this)] as $name => $info) {
+        $class = get_class($this);
+        $propertyName = self::mapToPropertyName($class, $elementName);
+        if (array_key_exists($propertyName, self::$properties[$class])) {
+            $info = self::$properties[$class][$propertyName];
             $nameKey = $info['attribute'] ? 'attributeName' : 'elementName';
             if (array_key_exists($nameKey, $info)) {
                 if ($info[$nameKey] === $elementName) {
                     $meta = new \StdClass();
-                    $meta->propertyName = $name;
+                    $meta->propertyName = $propertyName;
                     $meta->phpType = $info['type'];
                     $meta->unbound = $info['unbound'];
                     $meta->attribute = $info['attribute'];
@@ -167,8 +177,8 @@ class BaseType
      *
      * @param string $class The name of the class the properties belong to.
      * @param array $values. Associative array of property names and their values.
-     * @throws UnknownPropertyException If the property does not exist. 
-     * @throws InvalidPropertyTypeException  If the value is the wrong type for the property. 
+     * @throws UnknownPropertyException If the property does not exist.
+     * @throws InvalidPropertyTypeException If the value is the wrong type for the property.
      */
     protected function setValues($class, array $values = array())
     {
@@ -182,13 +192,14 @@ class BaseType
      *
      * @param string $class The name of the class the property belongs to.
      * @param string $name The property name.
-     * @throws UnknownPropertyException If the property does not exist. 
+     * @throws UnknownPropertyException If the property does not exist.
      *
      * @returns mixed The value of the property.
      */
     private function get($class, $name)
     {
         self::ensurePropertyExists($class, $name);
+        $name = self::mapToPropertyName($class, $name);
 
         return $this->getValue($class, $name);
     }
@@ -199,29 +210,31 @@ class BaseType
      * @param string $class The name of the class the properties belong to.
      * @param string $name The property name.
      * @param mixed $value. The value to assign to the property.
-     * @throws UnknownPropertyException If the property does not exist. 
-     * @throws InvalidPropertyTypeException  If the value is the wrong type for the property. 
+     * @throws UnknownPropertyException If the property does not exist.
+     * @throws InvalidPropertyTypeException If the value is the wrong type for the property.
      */
     private function set($class, $name, $value)
     {
         self::ensurePropertyExists($class, $name);
+        $name = self::mapToPropertyName($class, $name);
         self::ensurePropertyType($class, $name, $value);
 
         $this->setValue($class, $name, $value);
     }
 
     /**
-     * Determine if a property has been set. 
+     * Determine if a property has been set.
      *
      * @param string $class The name of the class the properties belong to.
      * @param string $name The property name.
-     * @throws UnknownPropertyException If the property does not exist. 
+     * @throws UnknownPropertyException If the property does not exist.
      *
      * @returns boolean Returns if the property has been set.
      */
     private function isPropertySet($class, $name)
     {
         self::ensurePropertyExists($class, $name);
+        $name = self::mapToPropertyName($class, $name);
 
         return array_key_exists($name, $this->values);
     }
@@ -231,11 +244,12 @@ class BaseType
      *
      * @param string $class The name of the class the properties belong to.
      * @param string $name The property name.
-     * @throws UnknownPropertyException If the property does not exist. 
+     * @throws UnknownPropertyException If the property does not exist.
      */
     private function unSetProperty($class, $name)
     {
         self::ensurePropertyExists($class, $name);
+        $name = self::mapToPropertyName($class, $name);
 
         unset($this->values[$name]);
     }
@@ -265,7 +279,7 @@ class BaseType
      * @param string $class The name of the class the properties belong to.
      * @param string $name The property name.
      * @param mixed $value. The value to assign to the property.
-     * @throws InvalidPropertyTypeException  If trying to assign a non array type to an unbound property. 
+     * @throws InvalidPropertyTypeException If trying to assign a non array type to an unbound property.
      */
     private function setValue($class, $name, $value)
     {
@@ -303,7 +317,7 @@ class BaseType
                 continue;
             }
 
-            $attributes[] = self::attributeToXml($info['attributeName'], $this->values[$name]); 
+            $attributes[] = self::attributeToXml($info['attributeName'], $this->values[$name]);
         }
 
         return join('', $attributes);
@@ -334,10 +348,10 @@ class BaseType
             else {
                 if ($info['unbound']) {
                     foreach($value as $property) {
-                        $properties[] = self::propertyToXml($info['elementName'], $property); 
+                        $properties[] = self::propertyToXml($info['elementName'], $property);
                     }
                 } else {
-                    $properties[] = self::propertyToXml($info['elementName'], $value); 
+                    $properties[] = self::propertyToXml($info['elementName'], $value);
                 }
             }
         }
@@ -348,24 +362,42 @@ class BaseType
     /**
      * Determines if the property is a member of the class.
      *
-     * @param string $class The name of the class that we are checking for. 
+     * @param string $class The name of the class that we are checking for.
      * @param string $name The property name.
-     * @throws UnknownPropertyException If the property does not exist. 
+     * @throws UnknownPropertyException If the property does not exist.
      */
     private static function ensurePropertyExists($class, $name)
     {
-        if (!array_key_exists($name, self::$properties[$class])) {
+        if (!array_key_exists($name, self::$properties[$class]) && !array_key_exists($name, self::$elementNames[$class])) {
             throw new Exceptions\UnknownPropertyException(get_called_class(), $name);
         }
     }
 
     /**
+     * Maps an element name to the correct property name.
+     * Does not assume that a property exists.
+     *
+     * @param string $class The name of the class the properties belong to.
+     * @param string $name The element name.
+     *
+     * @returns string The property name.
+     */
+    private static function mapToPropertyName($class, $name)
+    {
+        if (array_key_exists($name, self::$elementNames[$class])) {
+            return self::$elementNames[$class][$name];
+        }
+
+        return $name;
+    }
+
+    /**
      * Determines if the value is the correct type to assign to a property.
      *
-     * @param string $class The name of the class that we are checking for. 
+     * @param string $class The name of the class that we are checking for.
      * @param string $name The property name.
      * @param mixed $name The value to check the type of.
-     * @throws InvalidPropertyTypeException  If the value is the wrong type for the property. 
+     * @throws InvalidPropertyTypeException If the value is the wrong type for the property.
      */
     private static function ensurePropertyType($class, $name, $value)
     {
@@ -413,19 +445,49 @@ class BaseType
     /**
      * Helper function to remove the properties and values that belong to a object's parent.
      *
-     * @returns array The first element is an array of parent properties and values. 
+     * @returns array The first element is an array of parent properties and values.
      *                The second element is an array of the object's properties and values.
      */
-    protected static function getParentValues(array $properties = array(), array $values = array())
+    protected static function getParentValues(array $elementNamesMap, array $properties, array $values)
     {
-      return array(
-          array_diff_key($values, $properties),
-          array_intersect_key($values, $properties)
-      );
+        /*
+         * Take into account that $values may be using element names instead of property names.
+         */
+        $propertyValues = array();
+        foreach ($values as $name => $value) {
+            $propertyName = array_key_exists($name, $elementNamesMap) ? $elementNamesMap[$name] : $name;
+            $propertyValues[$propertyName] = $value;
+        }
+
+        return array(
+            array_diff_key($propertyValues, $properties),
+            array_intersect_key($propertyValues, $properties)
+        );
     }
 
     /**
-     * Helper function to convert an attribute property into XML 
+     * Helper function to build an associative array of element names mapped to property names.
+     *
+     * @param array $properties Associative array of property names and their infos.
+     *
+     * @returns array Associative array where the key is the element name and the value is the property name.
+     */
+    protected static function buildElementNamesMap(array $properties)
+    {
+        $elementNames = array();
+
+        foreach ($properties as $propertyName => $info) {
+            $nameKey = $info['attribute'] ? 'attributeName' : 'elementName';
+            if (array_key_exists($nameKey, $info)) {
+                $elementNames[$info[$nameKey]] = $propertyName;
+            }
+        }
+
+        return $elementNames;
+    }
+
+    /**
+     * Helper function to convert an attribute property into XML
      *
      * @param string $class The name of the class the property belongs to.
      * @param string $name The of the attribute property.
@@ -438,7 +500,7 @@ class BaseType
     }
 
     /**
-     * Helper function to convert an property into XML 
+     * Helper function to convert an property into XML
      *
      * @param string $name The of the property.
      * @param mixed $value The value of the property.
@@ -455,7 +517,7 @@ class BaseType
     }
 
     /**
-     * Helper function to convert a value into XML 
+     * Helper function to convert a value into XML
      *
      * @param mixed $value The value of the property.
      *
