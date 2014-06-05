@@ -57,11 +57,10 @@ abstract class BaseService
     private $logger;
 
     /**
-     * @param \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient The object that will handle sending requests to the API.
      * @param string $productionUrl The production URL.
      * @param string $sandboxUrl The sandbox URL.
      * @param array $config Optional configuration option values.
-     *
+     * @param \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient The object that will handle sending requests to the API.
      */
     public function __construct(
         $productionUrl,
