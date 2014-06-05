@@ -8,9 +8,7 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
         $obj = new ComplexClass(array(
             'foo' => 'foo',
             'integer' => 123,
-            'strings' => array('foo', 'bar'),
-            'BISH' => 'foo',
-            'BishBash' => 'foo'
+            'strings' => array('foo', 'bar')
         ));
 
         $this->assertEquals('foo', $obj->foo);
@@ -23,18 +21,6 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $obj->strings[0]);
         $this->assertEquals('bar', $obj->strings[1]);
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $obj->strings);
-
-        $this->assertEquals('foo', $obj->bish);
-        $this->assertInternalType('string', $obj->bish);
-
-        $this->assertEquals('foo', $obj->BISH);
-        $this->assertInternalType('string', $obj->BISH);
-
-        $this->assertEquals('foo', $obj->bishBash);
-        $this->assertInternalType('string', $obj->bishBash);
-
-        $this->assertEquals('foo', $obj->BishBash);
-        $this->assertInternalType('string', $obj->BishBash);
     }
 
     public function testSettingInvalidPropertyViaCtor()
