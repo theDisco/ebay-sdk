@@ -19,7 +19,7 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
          */
         $this->httpClient = new HttpClient();
         // BaseService is abstract so use class that is derived from it for testing.
-        $this->service = new Service($this->httpClient);
+        $this->service = new Service(array(), $this->httpClient);
         $this->request = new ComplexClass();
         $this->logger = new Logger();
     }
