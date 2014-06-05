@@ -19,6 +19,7 @@ namespace DTS\eBaySDK\Services;
 
 use DTS\eBaySDK\Parser\XmlParser;
 use \DTS\eBaySDK\Exceptions;
+use \DTS\eBaySDK\HttpClient\HttpClient;
 
 /**
  * The base class for every eBay service class.
@@ -26,7 +27,7 @@ use \DTS\eBaySDK\Exceptions;
 abstract class BaseService
 {
     /**
-     * @var array A list of configuration options allowed for each service class. 
+     * @var array A list of configuration options allowed for each service class.
      */
     protected static $configOptions = array();
 
@@ -59,14 +60,14 @@ abstract class BaseService
      * @param \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient The object that will handle sending requests to the API.
      * @param string $productionUrl The production URL.
      * @param string $sandboxUrl The sandbox URL.
-     * @param array $config Optional configuration option values. 
+     * @param array $config Optional configuration option values.
      *
      */
     public function __construct(
-        \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient,
         $productionUrl,
         $sandboxUrl,
-        $config = array()
+        $config = array(),
+        \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient = null
     ) {
         // Inject a 'sandbox' option for every derived class.
         if (!array_key_exists('sandbox', self::$configOptions[get_called_class()])) {
@@ -80,10 +81,10 @@ abstract class BaseService
 
         self::ensureValidConfigOptions($config);
 
-        $this->httpClient = $httpClient;
         $this->productionUrl = $productionUrl;
         $this->sandboxUrl = $sandboxUrl;
         $this->config = $config;
+        $this->httpClient = $httpClient ? $httpClient : new \DTS\eBaySDK\HttpClient\HttpClient();
         $this->logger = null;
     }
 
@@ -112,7 +113,7 @@ abstract class BaseService
         return $this->config;
     }
 
-    /** 
+    /**
      *
      * @param $logger \Psr\Log\LoggerInterface The logger instance the service will use.
      *

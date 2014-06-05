@@ -3,7 +3,7 @@ namespace DTS\eBaySDK\Mocks;
 
 class BaseService extends \DTS\eBaySDK\Services\BaseService
 {
-    public function __construct(\DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient, $config = array())
+    public function __construct($config = array(), \DTS\eBaySDK\Interfaces\HttpClientInterface $httpClient = null)
     {
         if (!array_key_exists(get_called_class(), self::$configOptions)) {
             self::$configOptions[get_called_class()] = array(
@@ -14,7 +14,7 @@ class BaseService extends \DTS\eBaySDK\Services\BaseService
             );
         }
 
-        parent::__construct($httpClient, 'http://production.com', 'http://sandbox.com', $config);
+        parent::__construct('http://production.com', 'http://sandbox.com', $config, $httpClient);
     }
 
     protected function getEbayHeaders($operationName)

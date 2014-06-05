@@ -7,7 +7,7 @@ class ServiceConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // BaseService is abstract so use class that is derived from it for testing.
-        $this->obj = new Service(new HttpClient());
+        $this->obj = new Service();
     }
 
     public function testConfig()
