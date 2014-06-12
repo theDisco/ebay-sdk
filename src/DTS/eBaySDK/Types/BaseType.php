@@ -45,11 +45,6 @@ class BaseType
     protected static $properties = array();
 
     /**
-     * @var array Associative array containing mapping element names to property names.
-     */
-    protected static $elementNames = array();
-
-    /**
      * @var array Associative array. Key is the class name and the value is the xml namespace.
      */
     protected static $xmlNamespaces = array();
@@ -67,10 +62,6 @@ class BaseType
     {
         if (!array_key_exists(__CLASS__, self::$properties)) {
             self::$properties[__CLASS__] = array();
-        }
-
-        if (!array_key_exists(__CLASS__, self::$elementNames)) {
-            self::$elementNames[__CLASS__] = array();
         }
 
         $this->setValues(__CLASS__, $values);
@@ -150,14 +141,13 @@ class BaseType
     public function elementMeta($elementName)
     {
         $class = get_class($this);
-        $propertyName = self::mapToPropertyName($class, $elementName);
-        if (array_key_exists($propertyName, self::$properties[$class])) {
-            $info = self::$properties[$class][$propertyName];
+        if (array_key_exists($elementName, self::$properties[$class])) {
+            $info = self::$properties[$class][$elementName];
             $nameKey = $info['attribute'] ? 'attributeName' : 'elementName';
             if (array_key_exists($nameKey, $info)) {
                 if ($info[$nameKey] === $elementName) {
                     $meta = new \StdClass();
-                    $meta->propertyName = $propertyName;
+                    $meta->propertyName = $elementName;
                     $meta->phpType = $info['type'];
                     $meta->unbound = $info['unbound'];
                     $meta->attribute = $info['attribute'];
@@ -199,7 +189,6 @@ class BaseType
     private function get($class, $name)
     {
         self::ensurePropertyExists($class, $name);
-        $name = self::mapToPropertyName($class, $name);
 
         return $this->getValue($class, $name);
     }
@@ -216,7 +205,6 @@ class BaseType
     private function set($class, $name, $value)
     {
         self::ensurePropertyExists($class, $name);
-        $name = self::mapToPropertyName($class, $name);
         self::ensurePropertyType($class, $name, $value);
 
         $this->setValue($class, $name, $value);
@@ -234,7 +222,6 @@ class BaseType
     private function isPropertySet($class, $name)
     {
         self::ensurePropertyExists($class, $name);
-        $name = self::mapToPropertyName($class, $name);
 
         return array_key_exists($name, $this->values);
     }
@@ -249,7 +236,6 @@ class BaseType
     private function unSetProperty($class, $name)
     {
         self::ensurePropertyExists($class, $name);
-        $name = self::mapToPropertyName($class, $name);
 
         unset($this->values[$name]);
     }
@@ -368,27 +354,9 @@ class BaseType
      */
     private static function ensurePropertyExists($class, $name)
     {
-        if (!array_key_exists($name, self::$properties[$class]) && !array_key_exists($name, self::$elementNames[$class])) {
+        if (!array_key_exists($name, self::$properties[$class])) {
             throw new Exceptions\UnknownPropertyException(get_called_class(), $name);
         }
-    }
-
-    /**
-     * Maps an element name to the correct property name.
-     * Does not assume that a property exists.
-     *
-     * @param string $class The name of the class the properties belong to.
-     * @param string $name The element name.
-     *
-     * @returns string The property name.
-     */
-    private static function mapToPropertyName($class, $name)
-    {
-        if (array_key_exists($name, self::$elementNames[$class])) {
-            return self::$elementNames[$class][$name];
-        }
-
-        return $name;
     }
 
     /**
@@ -448,42 +416,12 @@ class BaseType
      * @returns array The first element is an array of parent properties and values.
      *                The second element is an array of the object's properties and values.
      */
-    protected static function getParentValues(array $elementNamesMap, array $properties, array $values)
+    protected static function getParentValues(array $properties, array $values)
     {
-        /*
-         * Take into account that $values may be using element names instead of property names.
-         */
-        $propertyValues = array();
-        foreach ($values as $name => $value) {
-            $propertyName = array_key_exists($name, $elementNamesMap) ? $elementNamesMap[$name] : $name;
-            $propertyValues[$propertyName] = $value;
-        }
-
         return array(
-            array_diff_key($propertyValues, $properties),
-            array_intersect_key($propertyValues, $properties)
+            array_diff_key($values, $properties),
+            array_intersect_key($values, $properties)
         );
-    }
-
-    /**
-     * Helper function to build an associative array of element names mapped to property names.
-     *
-     * @param array $properties Associative array of property names and their infos.
-     *
-     * @returns array Associative array where the key is the element name and the value is the property name.
-     */
-    protected static function buildElementNamesMap(array $properties)
-    {
-        $elementNames = array();
-
-        foreach ($properties as $propertyName => $info) {
-            $nameKey = $info['attribute'] ? 'attributeName' : 'elementName';
-            if (array_key_exists($nameKey, $info)) {
-                $elementNames[$info[$nameKey]] = $propertyName;
-            }
-        }
-
-        return $elementNames;
     }
 
     /**

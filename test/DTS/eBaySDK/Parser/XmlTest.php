@@ -32,15 +32,15 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(123.45, $obj->double);
         $this->assertEquals(true, $obj->booleanTrue);
         $this->assertEquals(false, $obj->booleanFalse);
-        $this->assertEquals(new \DateTime('2000-01-01T16:15:30.123Z', new \DateTimeZone('UTC')), $obj->dateTime);
-        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $obj->simpleClass);
-        $this->assertEquals(321, $obj->simpleClass->integer);
-        $this->assertEquals('another string', $obj->simpleClass->string);
-        $this->assertEquals(123, $obj->simpleClass->integerAttribute);
-        $this->assertEquals(123.45, $obj->simpleClass->doubleAttribute);
-        $this->assertEquals(true, $obj->simpleClass->booleanTrueAttribute);
-        $this->assertEquals(false, $obj->simpleClass->booleanFalseAttribute);
-        $this->assertEquals(new \DateTime('2000-01-01T16:15:30.123Z', new \DateTimeZone('UTC')), $obj->simpleClass->dateTimeAttribute);
+        $this->assertEquals(new \DateTime('2000-01-01T16:15:30.123Z', new \DateTimeZone('UTC')), $obj->DateTime);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $obj->SimpleClass);
+        $this->assertEquals(321, $obj->SimpleClass->integer);
+        $this->assertEquals('another string', $obj->SimpleClass->string);
+        $this->assertEquals(123, $obj->SimpleClass->IntegerAttribute);
+        $this->assertEquals(123.45, $obj->SimpleClass->doubleAttribute);
+        $this->assertEquals(true, $obj->SimpleClass->BooleanTrueAttribute);
+        $this->assertEquals(false, $obj->SimpleClass->booleanFalseAttribute);
+        $this->assertEquals(new \DateTime('2000-01-01T16:15:30.123Z', new \DateTimeZone('UTC')), $obj->SimpleClass->DateTimeAttribute);
         $this->assertEquals('foo', $obj->strings[0]);
         $this->assertEquals('bar', $obj->strings[1]);
         $this->assertEquals(1, $obj->integers[0]);
@@ -53,11 +53,8 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(888, $obj->simpleClasses[0]->integer);
         $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $obj->simpleClasses[1]);
         $this->assertEquals(999, $obj->simpleClasses[1]->integer);
-        $this->assertEquals(543.21, $obj->amountClass->value);
-        $this->assertEquals('one', $obj->amountClass->attributeOne);
-        $this->assertEquals('one', $obj->amountClass->AttributeOne);
-        $this->assertEquals('two', $obj->amountClass->attributeBish);
-        $this->assertEquals('two', $obj->amountClass->ATTRIBUTEBISH);
+        $this->assertEquals(543.21, $obj->AmountClass->value);
+        $this->assertEquals('one', $obj->AmountClass->AttributeOne);
         $this->assertEquals('binary type', $obj->base64BinaryType->value);
         $this->assertEquals(true, $obj->booleanType->value);
         $this->assertEquals(123, $obj->decimalType->value);
@@ -66,9 +63,5 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('string type', $obj->stringType->value);
         $this->assertEquals('token type', $obj->tokenType->value);
         $this->assertEquals('uri type', $obj->uriType->value);
-        $this->assertEquals('foo', $obj->bish);
-        $this->assertEquals('foo', $obj->BISH);
-        $this->assertEquals('foo', $obj->bishBash);
-        $this->assertEquals('foo', $obj->BishBash);
     }
 }

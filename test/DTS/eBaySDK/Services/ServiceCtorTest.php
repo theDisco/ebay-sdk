@@ -15,7 +15,7 @@ class ServiceCtorTest extends \PHPUnit_Framework_TestCase
     {
         // BaseService is abstract so use class that is derived from it for testing.
         // Can pass in an associative array of configuration options.
-        $this->obj = new Service(new HttpClient(), $this->config);
+        $this->obj = new Service($this->config);
     }
 
     public function testConfigurationOptionsHaveBeenSetInCtor()
@@ -27,9 +27,9 @@ class ServiceCtorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\DTS\eBaySDK\Exceptions\UnknownConfigurationOptionException', 'Unknown configuration option: DTS\eBaySDK\Mocks\Service::bar');
 
-        new Service(new HttpClient(), array(
+        new Service(array(
             'bish' => 'bish',
             'bar' => 'xxx'
-        ));
+        ), new HttpClient());
     }
 }

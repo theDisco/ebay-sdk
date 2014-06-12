@@ -49,14 +49,14 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('boolean', $this->obj->booleanFalse);
 
         $date = new \DateTime('2000-01-01', new \DateTimeZone('UTC'));
-        $this->obj->dateTime = $date;
-        $this->assertEquals($date, $this->obj->dateTime);
-        $this->assertInstanceOf('\DateTime', $this->obj->dateTime);
+        $this->obj->DateTime = $date;
+        $this->assertEquals($date, $this->obj->DateTime);
+        $this->assertInstanceOf('\DateTime', $this->obj->DateTime);
 
         $simpleClass = new SimpleClass();
-        $this->obj->simpleClass = $simpleClass;
-        $this->assertEquals($simpleClass, $this->obj->simpleClass);
-        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $this->obj->simpleClass);
+        $this->obj->SimpleClass = $simpleClass;
+        $this->assertEquals($simpleClass, $this->obj->SimpleClass);
+        $this->assertInstanceOf('\DTS\eBaySDK\Mocks\SimpleClass', $this->obj->SimpleClass);
 
         $this->assertEquals(0, count($this->obj->strings));
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
@@ -126,41 +126,12 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->uriType = new URIType();
         $this->obj->uriType->value = 'uri type';
         $this->assertEquals('uri type', $this->obj->uriType->value);
-
-        $this->obj->bish = 'foo';
-        $this->assertEquals('foo', $this->obj->bish);
-        $this->assertInternalType('string', $this->obj->bish);
-
-        // Should be able to set the property using its element name.
-        $this->obj->BISH = 'foo';
-        $this->assertEquals('foo', $this->obj->BISH);
-        $this->assertInternalType('string', $this->obj->BISH);
-
-        // Set via property name but get from its element name.
-        $this->obj->bish = 'foo';
-        $this->assertEquals('foo', $this->obj->BISH);
-
-        $this->obj->bishBash = 'foo';
-        $this->assertEquals('foo', $this->obj->bishBash);
-        $this->assertInternalType('string', $this->obj->bishBash);
-
-        // Should be able to set the property using its element name.
-        $this->obj->BishBash = 'foo';
-        $this->assertEquals('foo', $this->obj->BishBash);
-        $this->assertInternalType('string', $this->obj->BishBash);
-
-        // Set via property name but get from its element name.
-        $this->obj->bishBash = 'foo';
-        $this->assertEquals('foo', $this->obj->BishBash);
     }
 
     public function testIsSet()
     {
         $this->obj->string = 'foo';
         $this->assertEquals(true, isset($this->obj->string));
-
-        $this->obj->BISH = 'foo';
-        $this->assertEquals(true, isset($this->obj->BISH));
     }
 
     public function testUnSet()
@@ -168,10 +139,6 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
         $this->obj->string = 'foo';
         unset($this->obj->string);
         $this->assertEquals(false, isset($this->obj->string));
-
-        $this->obj->BISH = 'foo';
-        unset($this->obj->BISH);
-        $this->assertEquals(false, isset($this->obj->BISH));
     }
 
     public function testGettingNonExistentProperty()
@@ -233,7 +200,7 @@ class SimpleClassTest extends \PHPUnit_Framework_TestCase
     public function testCanGetElementMeta()
     {
         $meta = new \StdClass();
-        $meta->propertyName = 'simpleClass';
+        $meta->propertyName = 'SimpleClass';
         $meta->phpType = 'DTS\eBaySDK\Mocks\SimpleClass';
         $meta->unbound = false;
         $meta->attribute = false;
