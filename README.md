@@ -1,31 +1,54 @@
 # EBAY-SDK
 
-[![Build Status](https://travis-ci.org/davidtsadler/ebay-sdk.png?branch=develop)](https://travis-ci.org/davidtsadler/ebay-sdk)
+[![Build Status](https://travis-ci.org/davidtsadler/ebay-sdk.svg?branch=develop)](https://travis-ci.org/davidtsadler/ebay-sdk)
 
-An eBay SDK for PHP. Use the eBay API in your PHP projects.
+This project enables PHP developers to use the [eBay API](https://go.developer.ebay.com/developers/ebay/documentation-tools/) in their PHP code, and build software using services such as [Finding](http://developer.ebay.com/Devzone/finding/Concepts/FindingAPIGuide.html), [Trading](http://developer.ebay.com/DevZone/guides/ebayfeatures/index.html), [Shopping](http://developer.ebay.com/Devzone/shopping/docs/Concepts/ShoppingAPIGuide.html), etc. You can get started by [installing the SDK via Composer](http://devbay.net/sdk/guides/installation/) and by following the [Getting Started Guide]((http://devbay.net/sdk/guides/getting_started/).
 
-This is the main dependancy for the below SDKs. The classes provide by this repository handle the mapping of the API XML requests and reponses to actual PHP objects. See each repository for using the SDK with the eBay API.
+## Features
 
-More information can be found in the [wiki](https://github.com/davidtsadler/ebay-sdk/wiki).
+  - Compatible with PHP 5.3.3 or greater.
+  - Easy to install with [Composer](http://getcomposer.org/).
+  - Compliant with [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md), [PSR-1](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md) and [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
-## SDK Repositories.
+## Resources
+
+  - [User Guides](http://devbay.net/sdk/guides/) - Getting started guide and in-depth information.
+  - [SDK Versions](http://devbay.net/sdk/guides/versions/) - A complete list of each SDK, and the API version they support.
+  - [Sample Project](https://github.com/davidtsadler/ebay-sdk-examples) - Provides several examples of using the SDK.
+  - [Google Group](https://groups.google.com/forum/#!forum/ebay-sdk-php) - Join for support with the SDK.
+  - [@devbaydotnet](https://twitter.com/devbaydotnet) - Follow on Twitter for announcements of releases, important changes and so on.
+
+## Requirements
+
+  - PHP 5.3.3 or greater with the following extensions:
+      - cURL
+      - libxml
+  - SSL enabled on the cURL extension so that https requests can be made.
+
+## SDK Repositories
+
+Due to the vast size of the eBay API, this project is just the main dependency for several projects that are shown below. Each of these projects provide a SDK for interfacing with one of the eBay services.
+
   - [Finding](https://github.com/davidtsadler/ebay-sdk-finding)
   - [Trading](https://github.com/davidtsadler/ebay-sdk-trading)
   - [Shopping](https://github.com/davidtsadler/ebay-sdk-shopping)
-  - [Bulk Data Exchange](https://github.com/davidtsadler/ebay-sdk-bulk-data-exchange)
   - [Business Policies Management](https://github.com/davidtsadler/ebay-sdk-business-policies-management)
-  - [Feedback](https://github.com/davidtsadler/ebay-sdk-feedback)
-  - [File Transfer](https://github.com/davidtsadler/ebay-sdk-file-transfer)
-  - [Merchandising](https://github.com/davidtsadler/ebay-sdk-merchandising)
-  - [Order Adjustment](https://github.com/davidtsadler/ebay-sdk-order-adjustment)
-  - [Payout Details](https://github.com/davidtsadler/ebay-sdk-payout-details)
-  - [Product Metadata](https://github.com/davidtsadler/ebay-sdk-product-metadata)
-  - [Product](https://github.com/davidtsadler/ebay-sdk-product)
-  - [Related Items Management](https://github.com/davidtsadler/ebay-sdk-related-items-management)
-  - [Resolution Case Management](https://github.com/davidtsadler/ebay-sdk-resolution-case-management)
-  - [Return Management](https://github.com/davidtsadler/ebay-sdk-return-management)
-  - [Seller Offers](https://github.com/davidtsadler/ebay-sdk-seller-offers)
 
-## SDK and eBay API versions.
+## Project Goals
 
-As eBay release new versions of their API the corresponding SDK version will be shown [here](https://github.com/davidtsadler/ebay-sdk/wiki/SDK-and-eBay-API-Versions).
+  - Be well maintained.
+  - Be [well documented](http://devbay.net/sdk/guides/).
+  - Be [well tested](https://github.com/davidtsadler/ebay-sdk/tree/master/test/DTS/eBaySDK).
+  - Be well supported with [working examples](https://github.com/davidtsadler/ebay-sdk-examples).
+
+## Project Maturity
+
+This is a personal project that has been developed by me, [David T. Sadler](http://twitter.com/davidtsadler). I decided to create this project to make up for the lack of an official SDK for PHP. It is in no way endorsed, sponsored or maintained by eBay.
+
+As this is a brand new project you should expect frequent releases until it reaches the stable `1.0.0` target. I will endeavour to keep changes to a minimum between each release and any changes will be [documented](https://github.com/davidtsadler/ebay-sdk/blob/master/CHANGELOG.md).
+
+## License
+
+Licensed under the [Apache Public License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+Copyright 2014 [David T. Sadler](http://twitter.com/davidtsadler)
