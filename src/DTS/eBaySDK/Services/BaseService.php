@@ -241,7 +241,7 @@ abstract class BaseService
     {
         if ($this->logger) {
             $this->logger->debug('Response', array(
-                'body' => (string)$body
+                'body' => $body
             ));
         }
     }
