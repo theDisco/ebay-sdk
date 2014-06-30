@@ -12,7 +12,7 @@ class Service extends \DTS\eBaySDK\Mocks\BaseService
     {
         return $this->callOperation(
             'foo',
-            $request->toXml('FooRequest', true),
+            $request->toRequestXml(),
             '\DTS\eBaySDK\Mocks\ComplexClass'
         );
     }

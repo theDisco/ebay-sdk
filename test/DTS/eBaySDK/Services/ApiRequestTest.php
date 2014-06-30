@@ -13,7 +13,7 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
          * The idea is that all the information needed to make the request is
          * passed to the client by the service. What we want to test is that the
          * is actualy passed correctly. We are not testing the sending of the request
-         * over the internet. 
+         * over the internet.
          * The HttpClient contains properties that will be set when the service
          * makes the request. We can test these properties to check what the service is passing.
          */
@@ -44,14 +44,14 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'fooHdr' => 'foo',
             'Content-Type' => 'text/xml',
-            'Content-Length' => strlen($this->request->toXml('FooRequest', true))
+            'Content-Length' => strlen($this->request->toRequestXml())
         ), $this->httpClient->headers);
     }
 
     public function testXmlIsCreated()
     {
         $this->service->foo($this->request);
-        $this->assertEquals($this->request->toXml('FooRequest', true), $this->httpClient->body);
+        $this->assertEquals($this->request->toRequestXml(), $this->httpClient->body);
     }
 
     public function testResponseIsReturned()
@@ -77,7 +77,7 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
         $this->service->logger($this->logger);
         $this->service->config('debug', true);
         $this->service->foo($this->request);
-    
+
         $debugRequest = $this->logger->debugMessages[0];
         $this->assertEquals('Request', $debugRequest['message']);
         $this->assertEquals('http://production.com', $debugRequest['context']['url']);
@@ -85,10 +85,10 @@ class ApiRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'fooHdr' => 'foo',
             'Content-Type' => 'text/xml',
-            'Content-Length' => strlen($this->request->toXml('FooRequest', true))
+            'Content-Length' => strlen($this->request->toRequestXml())
         ), $debugRequest['context']['headers']);
-        $this->assertEquals($this->request->toXml('FooRequest', true), $debugRequest['context']['body']);
-      
+        $this->assertEquals($this->request->toRequestXml(), $debugRequest['context']['body']);
+
         $debugResponse = $this->logger->debugMessages[1];
         $this->assertEquals('Response', $debugResponse['message']);
         $this->assertEquals(file_get_contents(__DIR__.'/../Mocks/Response.xml'), $debugResponse['context']['body']);

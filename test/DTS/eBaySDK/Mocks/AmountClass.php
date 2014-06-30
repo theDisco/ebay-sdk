@@ -32,6 +32,10 @@ class AmountClass extends \DTS\eBaySDK\Types\DoubleType
             self::$xmlNamespaces[__CLASS__] = 'http://davidtsadler.com';
         }
 
+        if (!array_key_exists(__CLASS__, self::$requestXmlRootElementNames)) {
+            self::$requestXmlRootElementNames[__CLASS__] = 'Price';
+        }
+
         $this->setValues(__CLASS__, $childValues);
     }
 }

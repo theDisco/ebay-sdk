@@ -38,6 +38,10 @@ class ComplexClass extends \DTS\eBaySDK\Mocks\SimpleClass
             self::$xmlNamespaces[__CLASS__] = 'http://davidtsadler.com';
         }
 
+        if (!array_key_exists(__CLASS__, self::$requestXmlRootElementNames)) {
+            self::$requestXmlRootElementNames[__CLASS__] = 'root';
+        }
+
         $this->setValues(__CLASS__, $childValues);
     }
 }

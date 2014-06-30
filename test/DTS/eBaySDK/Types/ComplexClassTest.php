@@ -108,6 +108,6 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
             new SimpleClass(array('integer' => 999))
         );
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toXml('root', true));
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toRequestXml());
     }
 }
