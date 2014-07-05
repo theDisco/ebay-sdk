@@ -131,16 +131,17 @@ abstract class BaseService
      * Sends an API request.
      *
      * @param string $name The name of the operation.
-     * @param mixed PHP object containing the request information.
+     * @param \DTS\eBaySDK\Types\BaseType $request Request object containing the request information.
      * @param string The name of the PHP class that will be created from the XML response.
      *
-     * @returns mixed A PHP object created from the XML respose.
+     * @return mixed A response object created from the XML respose.
      */
-    protected function callOperation($name, $body, $responseClass)
+    protected function callOperation($name, \DTS\eBaySDK\Types\BaseType $request, $responseClass)
     {
         $debug = $this->config('debug');
 
         $url = $this->getUrl();
+        $body = $request->toRequestXml();
         $headers = $this->getEbayHeaders($name);
         $headers['Content-Type'] = 'text/xml';
         $headers['Content-Length'] = strlen($body);
