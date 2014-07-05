@@ -49,6 +49,10 @@ class BaseType
      */
     protected static $xmlNamespaces = array();
 
+    /**
+     * @var array Associative array. Key is the name of the XML root element used in the request.
+     */
+    protected static $requestXmlRootElementNames = array();
 
     /**
      * @var array When a property is set the value will be stored in this array.
@@ -109,6 +113,16 @@ class BaseType
     }
 
     /**
+     * Converts the object to a XML request string.
+     *
+     * @returns string The XML request string.
+     */
+    public function toRequestXml()
+    {
+        return $this->toXml(self::$requestXmlRootElementNames[get_class($this)], true);
+    }
+
+    /**
      * Converts the object to a XML string.
      *
      * @param string $elementName The XML element that the object's properties will be a children of.
@@ -116,7 +130,7 @@ class BaseType
      *
      * @returns string The XML.
      */
-    public function toXml($elementName, $rootElement = false)
+    private function toXml($elementName, $rootElement = false)
     {
         return sprintf('%s<%s%s%s>%s</%s>',
             $rootElement ? '<?xml version="1.0" encoding="UTF-8"?>' : '',
