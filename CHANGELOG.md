@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+0.1.1 (2014-08-14)
+------------------
+
+### Fixes
+
+* Memory leak in XmlParser class. ([8bbd4ff](https://github.com/davidtsadler/ebay-sdk/commit/8bbd4ffde833f13936f1d1607ef559609e706a71), [#5](https://github.com/davidtsadler/ebay-sdk/issues/5)) [David T. Sadler]
+
 0.1.0 (2014-07-05)
 ------------------
 
