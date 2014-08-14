@@ -23,11 +23,6 @@ namespace DTS\eBaySDK\Parser;
 class XmlParser
 {
     /**
-     * @var resource Handles parsing the XML elements.
-     */
-    private $parser;
-
-    /**
      * @var string The name of the PHP class that will be created.
      */
     private $rootObjectClass;
@@ -36,7 +31,7 @@ class XmlParser
      * @var mixed The PHP object created from the XML.
      */
     private $rootObject;
-    
+
     /**
      * @var \SplStack
      */
@@ -47,24 +42,9 @@ class XmlParser
      */
     public function __construct($rootObjectClass)
     {
-        $this->parser = xml_parser_create('UTF-8');
-
-        xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, 0);
-        xml_parser_set_option($this->parser, XML_OPTION_SKIP_WHITE, 1);
-        xml_set_object($this->parser, $this);
-        xml_set_element_handler($this->parser, 'startElement', 'endElement');
-        xml_set_character_data_handler($this->parser, 'cdata');
-
         $this->rootObjectClass = $rootObjectClass;
 
         $this->metaStack = new \SplStack();
-    }
-
-    public function __destruct()
-    {
-        if (is_resource($this->parser)) {
-            xml_parser_free($this->parser);
-        }
     }
 
     /**
@@ -76,7 +56,17 @@ class XmlParser
      */
     public function parse($xml)
     {
-        xml_parse($this->parser, $xml, true);
+        $parser = xml_parser_create('UTF-8');
+
+        xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
+        xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
+        xml_set_object($parser, $this);
+        xml_set_element_handler($parser, 'startElement', 'endElement');
+        xml_set_character_data_handler($parser, 'cdata');
+
+        xml_parse($parser, $xml, true);
+
+        xml_parser_free($parser);
 
         return $this->rootObject;
     }
@@ -95,7 +85,7 @@ class XmlParser
 
     /**
      * Handler for the parser that is called for character data.
-     * 
+     *
      * @param resource $parser Reference to the XML parser calling the handler.
      * @param string $cdata The character data.
      */
@@ -121,7 +111,7 @@ class XmlParser
             // Element in the XML may not exist as a property name in the class.
             // This could happen if the SDK is out of date with what eBay return.
             // It could also happen if eBay return elements that are not mentioned in any WSDL.
-            if ($meta->propertyName !== '') { 
+            if ($meta->propertyName !== '') {
                 $parentObject = $this->getParentObject();
                 // Parent object may not have been created if it didn't exist as a property name.
                 if ($parentObject) {
@@ -148,9 +138,9 @@ class XmlParser
     }
 
     /**
-     * Looks up the PHP meta data for the element. 
+     * Looks up the PHP meta data for the element.
      *
-     * Allow the parser to build the required PHP object for an element. 
+     * Allow the parser to build the required PHP object for an element.
      *
      * @param string $name The name of the element.
      * @param arrary $attributes Associative array of the element's attributes.
@@ -181,7 +171,7 @@ class XmlParser
 
         $meta->phpObject = $this->newPhpObject($meta);
 
-        if ($meta->phpObject) { 
+        if ($meta->phpObject) {
             foreach ($attributes as $attribute => $value) {
                 // These attribute will simply not exist in a PHP object.
                 if ('xmlns' === $attribute) {
@@ -261,11 +251,11 @@ class XmlParser
     }
 
     /**
-     * Determines if the the property of an object is set by a _value_ property. 
+     * Determines if the the property of an object is set by a _value_ property.
      *
      * @param array $meta The PHP meta data.
      *
-     * @returns boolean True if the property need to be set by _value_. 
+     * @returns boolean True if the property need to be set by _value_.
      */
     private function setByValue($meta)
     {
