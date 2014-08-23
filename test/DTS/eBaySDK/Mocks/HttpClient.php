@@ -15,6 +15,7 @@ class HttpClient implements \DTS\eBaySDK\Interfaces\HttpClientInterface
     public $url;
     public $headers;
     public $body;
+    public $returnAttachment = false;
 
     public function post($url, $headers, $body)
     { 
@@ -23,6 +24,6 @@ class HttpClient implements \DTS\eBaySDK\Interfaces\HttpClientInterface
         $this->body = $body;
 
         // Return a fake XML resposne.
-        return file_get_contents(__DIR__.'/../Mocks/Response.xml');
+        return file_get_contents($this->returnAttachment ? __DIR__.'/../Mocks/AttachmentRequestResponse.xml' : __DIR__.'/../Mocks/Response.xml');
     }
 }

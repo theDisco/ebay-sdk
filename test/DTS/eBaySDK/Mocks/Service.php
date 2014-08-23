@@ -16,4 +16,13 @@ class Service extends \DTS\eBaySDK\Mocks\BaseService
             '\DTS\eBaySDK\Mocks\ComplexClass'
         );
     }
+
+    public function bar(\DTS\eBaySDK\Mocks\ComplexClass $request)
+    {
+        return $this->callOperation(
+            'foo',
+            $request,
+            '\DTS\eBaySDK\Mocks\ComplexClass'
+        );
+    }
 }
