@@ -23,6 +23,7 @@ This project enables PHP developers to use the [eBay API](https://go.developer.e
   - PHP 5.3.3 or greater with the following extensions:
       - cURL
       - libxml
+  - 64 bit version of PHP recommended as there are some [issues when using the SDK with 32 bit](http://devbay.net/sdk/guides/requirements/#issues).
   - SSL enabled on the cURL extension so that https requests can be made.
 
 ## SDK Repositories
