@@ -60,6 +60,11 @@ class BaseType
     private $values = array();
 
     /**
+     * @var array Associative array storing an attachment.
+     */
+    private $attachment;
+
+    /**
      * @param array $values Can pass an associative array that will set the objects properties.
      */
     public function __construct(array $values = array())
@@ -69,6 +74,8 @@ class BaseType
         }
 
         $this->setValues(__CLASS__, $values);
+
+        $this->attachment = array('data' => null, 'mimeType' => null);
     }
 
     /**
@@ -174,6 +181,40 @@ class BaseType
         }
 
         return null;
+    }
+
+    /**
+     * Method to get or set the object's attachment. Overrides any existing attachment is setting.
+     *
+     * @param mixed If a string it is assumed to be the contents of the attachment.
+     *              If an array copy its values across.
+     * @param string The MIME type of the attachment that will be used in the request. Defaults to application/octet-stream.
+     *
+     * @return mixed Returns the contents of the current atachment or null if none has been specified.
+     */
+    public function attachment($data = null, $mimeType = 'application/octet-stream')
+    {
+        if ($data !== null) {
+            if(is_array($data)) {
+                $this->attachment['data'] = array_key_exists('data', $data) ? $data['data'] : null;
+                $this->attachment['mimeType'] = array_key_exists('mimeType', $data) ? $data['mimeType'] : 'application/octet-stream';
+            } else {
+                $this->attachment['data'] = $data;
+                $this->attachment['mimeType'] = $mimeType;
+            }
+        }
+
+        return $this->attachment;
+    }
+
+    /**
+     * Helper method to check if an object has an attachment.
+     *
+     * @return boolean Returns true if an object has an attachment.
+     */
+    public function hasAttachment()
+    {
+        return $this->attachment['data'] !== null;
     }
 
     /**
