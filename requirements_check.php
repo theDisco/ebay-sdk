@@ -124,7 +124,7 @@ $check = new RequirementsCheck();
 $check->title('eBay SDK for PHP Requirements Check');
 
 $check->header('System Requirements');
-$check->checkPhpVersion('5.3.3.');
+$check->checkPhpVersion('5.3.9.');
 
 foreach(array('curl', 'libxml') as $ext) {
     $check->checkExt($ext);
