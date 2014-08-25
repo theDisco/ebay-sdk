@@ -6,7 +6,7 @@ CHANGELOG
 
 ### Features
 
-* Allow attachments to be sent and received. ([94288e3](https://github.com/davidtsadler/ebay-sdk/commit/94288e3a460d0d52a9cc2b6f2aca0a86130369ec) [David T. Sadler]
+* Allow attachments to be sent and received. ([94288e3](https://github.com/davidtsadler/ebay-sdk/commit/94288e3a460d0d52a9cc2b6f2aca0a86130369ec)) [David T. Sadler]
 
   The SDK now allows attachments to be sent as part of the request.
   Likewise attachments are handled if they appear in the response.
@@ -36,7 +36,7 @@ CHANGELOG
 
 ### Documentation
 
-* Update requirements to recommend 64 bit systems. ([150abfa](https://github.com/davidtsadler/ebay-sdk/commit/150abfae02699875f86806fbb274d4ae98089e7f) [David T. Sadler]
+* Update requirements to recommend 64 bit systems. ([150abfa](https://github.com/davidtsadler/ebay-sdk/commit/150abfae02699875f86806fbb274d4ae98089e7f)) [David T. Sadler]
 
 0.1.1 (2014-08-14)
 ------------------
