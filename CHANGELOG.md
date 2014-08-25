@@ -1,6 +1,43 @@
 CHANGELOG
 =========
 
+0.1.2 (2014-08-25)
+------------------
+
+### Features
+
+* Allow attachments to be sent and received. ([94288e3](https://github.com/davidtsadler/ebay-sdk/commit/94288e3a460d0d52a9cc2b6f2aca0a86130369ec) [David T. Sadler]
+
+  The SDK now allows attachments to be sent as part of the request.
+  Likewise attachments are handled if they appear in the response.
+
+  To add an attachment to the request object simply call the `attachment`
+  method passing in the binary data of the attachment as the first
+  parameter. Note that you do not have to base64 encode the data!
+
+  ```php
+  $request->attachment(file_get_contents(__DIR__.'/picture.jpg'));
+  ```
+
+  To get the attachment from a response simply call the same method with
+  no parmaters. The method will return an associative array with two keys.
+  The key 'data' is the binary data of the attachment while the key
+  'mimeType' returns the mime type.
+
+  ```php
+  $response = $service->downloadFile($request);
+
+  $attachment = $response->attachment();
+
+  $fp = fopen('attachment', 'wb');
+  fwrite($fp, $attachment['data']);
+  fclose($fp);
+  ```
+
+### Documentation
+
+* Update requirements to recommend 64 bit systems. ([150abfa](https://github.com/davidtsadler/ebay-sdk/commit/150abfae02699875f86806fbb274d4ae98089e7f) [David T. Sadler]
+
 0.1.1 (2014-08-14)
 ------------------
 
@@ -14,7 +51,7 @@ CHANGELOG
 ### Breaking changes
 
 * Change callOperation to accept a request object. ([34c44ba](https://github.com/davidtsadler/ebay-sdk/commit/34c44ba166fc9fcac0656073ed6a68b7c5f97eea)) [David T. Sadler]
-    
+
   This is a breaking change as the paramters of the method
   BaseService::callOperation have changed. Code calling this method must
   now pass an instance of the BaseType class as the second parameter. The
@@ -26,18 +63,18 @@ CHANGELOG
   This is a breaking change as the visibility of the method BaseType::toXml has been
   changed from `public` to `private`. Client code should now call the new public method
   BaseType::toRequestXml instead.
-  
+
   The class property `$requestXmlRootElementNames` has also been added to
   the BaseType class. This is a breaking change as classes derived from
   BaseType may have to assign a value to this property in their
   constructor.
-  
+
   ```php
   if (!array_key_exists(__CLASS__, self::$requestXmlRootElementNames)) {
       self::$requestXmlRootElementNames[__CLASS__] = '<ELEMENT NAME>';
   }
   ```
-  
+
   Classes are only required to do this if instances of the class are used
   as request objects. The value assigned to `$requestXmlRootElementNames`
   will be used as the name of the root element in the request XML.
