@@ -36,6 +36,10 @@ class AmountClass extends \DTS\eBaySDK\Types\DoubleType
             self::$requestXmlRootElementNames[__CLASS__] = 'Price';
         }
 
+        if (!array_key_exists(__CLASS__, self::$responseXmlRootElementNames)) {
+            self::$responseXmlRootElementNames[__CLASS__] = 'Price';
+        }
+
         $this->setValues(__CLASS__, $childValues);
     }
 }

@@ -18,12 +18,24 @@ class AmountClassTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DTS\eBaySDK\Types\DoubleType', $this->obj);
     }
 
-    public function testToXml()
+    public function testToRequestXml()
+    {
+        $this->assignValuesToObject();
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/AmountClassXml.xml', $this->obj->toRequestXml());
+    }
+
+    public function testToResponseXml()
+    {
+        $this->assignValuesToObject();
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/AmountClassXml.xml', $this->obj->toResponseXml());
+    }
+
+    private function assignValuesToObject()
     {
         $this->obj->value = 123.45;
         $this->obj->AttributeOne = 'one';
         $this->obj->AttributeTwo = 'two';
-
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/AmountClassXml.xml', $this->obj->toRequestXml());
     }
 }

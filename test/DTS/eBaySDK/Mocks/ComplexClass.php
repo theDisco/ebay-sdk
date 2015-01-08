@@ -42,6 +42,10 @@ class ComplexClass extends \DTS\eBaySDK\Mocks\SimpleClass
             self::$requestXmlRootElementNames[__CLASS__] = 'root';
         }
 
+        if (!array_key_exists(__CLASS__, self::$responseXmlRootElementNames)) {
+            self::$responseXmlRootElementNames[__CLASS__] = 'root';
+        }
+
         $this->setValues(__CLASS__, $childValues);
     }
 }

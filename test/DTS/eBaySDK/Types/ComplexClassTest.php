@@ -80,7 +80,21 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DTS\eBaySDK\Types\UnboundType', $this->obj->strings);
     }
 
-    public function testToXml()
+    public function testToRequestXml()
+    {
+        $this->assignValuesToObject();
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toRequestXml());
+    }
+
+    public function testToResponseXml()
+    {
+        $this->assignValuesToObject();
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toResponseXml());
+    }
+
+    private function assignValuesToObject()
     {
         $this->obj->foo = 'foo';
         $this->obj->integer = 123;
@@ -107,7 +121,5 @@ class ComplexClassTest extends \PHPUnit_Framework_TestCase
             new SimpleClass(array('integer' => 888)),
             new SimpleClass(array('integer' => 999))
         );
-
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../Mocks/ComplexClassXml.xml', $this->obj->toRequestXml());
     }
 }

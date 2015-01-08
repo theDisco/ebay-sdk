@@ -55,6 +55,11 @@ class BaseType
     protected static $requestXmlRootElementNames = array();
 
     /**
+     * @var array Associative array. Key is the name of the XML root element returned by the response.
+     */
+    protected static $responseXmlRootElementNames = array();
+
+    /**
      * @var array When a property is set the value will be stored in this array.
      */
     private $values = array();
@@ -127,6 +132,16 @@ class BaseType
     public function toRequestXml()
     {
         return $this->toXml(self::$requestXmlRootElementNames[get_class($this)], true);
+    }
+
+    /**
+     * Converts the object to a XML request string.
+     *
+     * @returns string The XML request string.
+     */
+    public function toResponseXml()
+    {
+        return $this->toXml(self::$responseXmlRootElementNames[get_class($this)], true);
     }
 
     /**
