@@ -135,7 +135,7 @@ class BaseType
     }
 
     /**
-     * Converts the object to a XML request string.
+     * Converts the object to a XML response string.
      *
      * @returns string The XML request string.
      */
